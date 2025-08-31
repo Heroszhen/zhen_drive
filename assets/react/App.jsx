@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import RoutesWrapper from './route/RoutesWrapper';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from './components/loader/Loader';
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
     const navigate = useNavigate();
@@ -19,27 +20,33 @@ function App() {
                 options.headers['Content-Type'] = 'application/merge-patch+json';
             }
             const response = await originalFetch.apply(this, [url, options]);
+
+            setLoader(false);
     
             const clonedResponse = response.clone();
             if (clonedResponse.ok === false) {
-                try {
-                    const jsonResponse = await clonedResponse.json();
-                    let msg = '';
-                    if (jsonResponse.message) msg += jsonResponse.message + '<br>';
-                    if (jsonResponse.violations) {
-                        for (let entry of jsonResponse.violations) {
-                        msg += `${entry['propertyPath']} : ${entry['message']}<br>`;
-                        }
+                let msg = '';
+                const jsonResponse = await clonedResponse.json();
+                if (jsonResponse.message) msg += jsonResponse.message + ' ';
+                if (jsonResponse.violations) {
+                    for (let entry of jsonResponse.violations) {
+                    msg += `${entry['propertyPath']} : ${entry['message']} `;
                     }
-                    if (jsonResponse['hydra:description']) msg += jsonResponse['hydra:description'] + '<br>';
-                } catch (e) {
-                    console.error('Error occurred:', e); // Log the error
-                } finally {
-                    if (clonedResponse.status === 401 && reactLocation.pathname !== '/')navigate('/');
                 }
-            }
+                if (jsonResponse['hydra:description']) msg += jsonResponse['hydra:description'] + ' ';
+                toast.error(msg, {
+                    autoClose: 5000,
+                    theme: "light",
+                });
 
-            setLoader(false);
+                if (clonedResponse.status === 401 && reactLocation.pathname !== '/')navigate('/');
+            } else {
+                toast.success('Envoyé', {
+                    autoClose: 1000,
+                    theme: "light",
+                });
+            }
+            
             return response;
         };
         setCanQuery(true);
@@ -53,6 +60,18 @@ function App() {
         <>
             <RoutesWrapper canQuery={canQuery} />
             {loader && <Loader />}
+
+            <ToastContainer
+                position="top-right"
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </>
     )
 }
