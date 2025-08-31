@@ -61,6 +61,9 @@ Encore
         config.useBuiltIns = 'usage';
         config.corejs = '3.38';
     })
+    .configureDefinePlugin(options => {
+        options['process.env'] = JSON.stringify(process.env);//get variables from env file for front
+    })
 
     // enables Sass/SCSS support
     .enableSassLoader()

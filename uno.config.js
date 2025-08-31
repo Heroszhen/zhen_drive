@@ -8,9 +8,7 @@ export default defineConfig({
       selector: (s) => `${s}.actived`, // Apply styles when "active" class exists
     } : undefined,
   ],
-  rules: [
-    [/^bg-color-(.+)$/, ([, color]) => ({ 'background-color': `#${color}` })],
-  ],
+  rules: [],
   theme: {
     breakpoints: {
       sm: '576px',

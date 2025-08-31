@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import './Home.scss';
+import { getAuth } from '../../stores/userStore.js';
 
 //login
 const Home = () => {
@@ -10,12 +12,50 @@ const Home = () => {
         reset,
     } = useForm();
 
+    useEffect(() => {
+        reset({
+            email: null,
+            password: null,
+        });
+    }, []);
+
+    const onSubmit = async (data) => {
+        await getAuth(data);
+    };
+
     return (
         <>
-            <section id="home" className="w-100 vh-100 d-flex justify-content-center align-items-center bg-color-f7f9fb">
-                <form className="w-[120px]">
-                    <div>
-
+            <section id="home" className="w-100 vh-100 p-2 d-flex justify-content-center align-items-center bg-[#f7f9fb]">
+                <form className="w-[400px] mw-100 p-4 bg-white rounded" onSubmit={handleSubmit(onSubmit)}>
+                    <h2 className="text-center">Connectez-vous</h2>
+                    <div className="mb-3">
+                        <label htmlFor="email" className="form-label">Mail</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            className="form-control" 
+                            autoComplete="off" 
+                            {...register('email', {
+                                required: { value: true, message: 'Le champ est obligatoire' },
+                                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            })}
+                        />
+                        {errors.email?.type === 'required' && (
+                            <div className="alert alert-danger mt-1">{errors.email?.message}</div>
+                        )}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="password" className="form-label">Mot de passe</label>
+                        <input type="password" id="password" name="password" className="form-control" autoComplete="off" 
+                            {...register('password', { required: { value: true, message: 'Le champ est obligatoire' } })}
+                        />
+                        {errors.password?.type === 'required' && (
+                        <div className="alert alert-danger mt-1">{errors.password.message}</div>
+                        )}
+                    </div>
+                    <div className="d-grid gap-2">
+                        <button className="btn btn-primary" type="submit">Envoyer</button>
                     </div>
                 </form>
             </section>

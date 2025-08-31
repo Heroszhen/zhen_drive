@@ -1,2 +1,11 @@
 @import "~bootstrap/scss/bootstrap";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+main#root {
+    width: 100%;
+}
