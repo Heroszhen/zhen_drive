@@ -6,12 +6,11 @@
         <link rel="icon" href="/favicon.png">
         {% block stylesheets %}
             {{ encore_entry_link_tags('style/main') }}
+            {{ encore_entry_link_tags('main') }}
         {% endblock %}
     </head>
     <body>
-        {% block body %}
-            <main id="root"></main>
-        {% endblock %}
+        {% block body %}{% endblock %}
         {% block javascripts %}
             {{ encore_entry_script_tags('main') }}
         {% endblock %}
