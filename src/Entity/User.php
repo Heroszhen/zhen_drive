@@ -11,6 +11,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use App\Controller\Action\GetUserByToken;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -19,6 +22,19 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     fields: ['name'],
     message: 'Le nom existe.',
 )]
+#[ApiResource(
+    normalizationContext: ['groups' => ['user:read'], 'skip_null_values' => false],
+    denormalizationContext: ['groups' => ['user:write']],
+    operations: [
+        new Get(
+            name: 'getUserByToken',
+            uriTemplate: '/users/profile',
+            controller: GetUserByToken::class,
+            read: false
+        ),
+        new Get(security: "is_granted('ROLE_ADMIN') or object.owner == user")
+    ]
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableTrait;
@@ -26,15 +42,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\Email()]
+    #[Groups(['user:read'])]
     private ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
+    #[Groups(['user:read'])]
     private array $roles = [];
 
     /**
@@ -44,9 +64,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['user:read'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['user:read'])]
     private ?string $photo = null;
 
     public function getId(): ?int

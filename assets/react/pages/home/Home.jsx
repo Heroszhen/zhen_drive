@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import './Home.scss';
-import { getAuth } from '../../stores/userStore.js';
+import useUserStore, { getAuth } from '../../stores/userStore.js';
+import { useNavigate } from 'react-router-dom';
 
 //login
 const Home = () => {
@@ -11,6 +12,8 @@ const Home = () => {
         formState: { errors },
         reset,
     } = useForm();
+    const { user } = useUserStore();
+    const navigate = useNavigate();
 
     useEffect(() => {
         reset({
@@ -18,6 +21,10 @@ const Home = () => {
             password: null,
         });
     }, []);
+
+    useEffect(() => {
+        if (user)navigate('/mon-drive');
+    }, [user]);
 
     const onSubmit = async (data) => {
         await getAuth(data);
@@ -27,6 +34,9 @@ const Home = () => {
         <>
             <section id="home" className="w-100 vh-100 p-2 d-flex justify-content-center align-items-center bg-[#f7f9fb]">
                 <form className="w-[400px] mw-100 p-4 bg-white rounded" onSubmit={handleSubmit(onSubmit)}>
+                    <div>
+                        <img src="/static/icons8-google-drive-512.png" alt="" />
+                    </div>
                     <h2 className="text-center">Connectez-vous</h2>
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">Mail</label>

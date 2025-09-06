@@ -3,6 +3,7 @@ import LoginGuard from './LoginGuard.jsx';
 import AdminGuard from './AdminGuard.jsx';
 
 import Home from '../pages/home/Home.jsx';
+import Drive from '../pages/drive/Drive.jsx';
 
 
 const RoutesWrapper = (props) => {
@@ -13,7 +14,7 @@ const RoutesWrapper = (props) => {
         {props.canQuery && (
           <>
             <Route element={<LoginGuard />}>
-              
+              <Route path="/mon-drive" element={<Drive />} />
             </Route>
 
             <Route element={<AdminGuard />}>
