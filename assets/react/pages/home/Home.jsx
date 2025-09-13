@@ -14,6 +14,7 @@ const Home = () => {
     } = useForm();
     const { user } = useUserStore();
     const navigate = useNavigate();
+    const [passwordInputType, setPasswordInputType] = useState('password');
 
     useEffect(() => {
         reset({
@@ -57,12 +58,22 @@ const Home = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="password" className="form-label">Mot de passe</label>
-                        <input type="password" id="password" name="password" className="form-control" autoComplete="off" 
+                        <input type={passwordInputType} id="password" name="password" className="form-control" autoComplete="off" 
                             {...register('password', { required: { value: true, message: 'Le champ est obligatoire' } })}
                         />
                         {errors.password?.type === 'required' && (
-                        <div className="alert alert-danger mt-1">{errors.password.message}</div>
+                            <div className="alert alert-danger mt-1">{errors.password.message}</div>
                         )}
+                    </div>
+                    <div className="mb-3">
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" id="check-password-input-type" 
+                                onChange={(e)=> e.target.checked ? setPasswordInputType('text') : setPasswordInputType('password')}
+                            />
+                            <label className="form-check-label" htmlFor="check-password-input-type">
+                                Afficher le mot de pass
+                            </label>
+                        </div>
                     </div>
                     <div className="d-grid gap-2">
                         <button className="btn btn-primary" type="submit">Envoyer</button>

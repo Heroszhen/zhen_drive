@@ -42,9 +42,9 @@ function App() {
                 });
 
                 if (clonedResponse.status === 401 && reactLocation.pathname !== '/')navigate('/');
-            } else {
+            } else if (options.method.toLowerCase() !== 'get') {
                 toast.success('Envoyé', {
-                    autoClose: 500,
+                    autoClose: 300,
                     theme: "light",
                 });
             }

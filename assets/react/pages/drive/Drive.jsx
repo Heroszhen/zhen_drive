@@ -37,9 +37,8 @@ const Drive = () => {
                             <DriveMenu />
                         </div>
                         <div className="col-12 col-lg-9">
-                            <div className="d-flex align-items-center justify-content-between">
+                            <div className="d-flex align-items-center justify-content-between mb-2">
                                 <div className="d-flex align-items-center justify-content-start"> 
-                                    <span>Mon Drive</span>
                                     {paths.length > 0 &&
                                         <select value={paths.length - 1} className="form-select form-select-sm" onChange={(e)=>changePath(e.target.value)}>
                                             <option  value='-1'>{rootDir}</option>
