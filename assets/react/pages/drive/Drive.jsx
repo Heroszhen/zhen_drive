@@ -3,6 +3,7 @@ import useDriveStore from '../../stores/driveStore';
 import useUserStore from '../../stores/userStore.js';
 
 import DriveList from '../../components/drivelist/DriveList';
+import DriveMenu from '../../components/drivemenu/DriveMenu';
 
 const Drive = () => {
     const [layout, setlayout] = useState(1);
@@ -18,7 +19,7 @@ const Drive = () => {
     }, [user]);
 
     const changePath = async (chosenIndex) => {
-        const newPaths = [];
+        let newPaths = [];
         if (parseInt(chosenIndex) >= 0) {
             newPaths = paths.filter((path, index) => index <= chosenIndex );
         }
@@ -32,10 +33,10 @@ const Drive = () => {
             <section id="drive" className="p-2">
                 <section className="container-fluid">
                     <div className="row">
-                        <div className="d-none d-lg-block col-lg-2">
-                            en construction
+                        <div className="col-12 d-lg-block col-lg-3">
+                            <DriveMenu />
                         </div>
-                        <div className="col-12 col-lg-10">
+                        <div className="col-12 col-lg-9">
                             <div className="d-flex align-items-center justify-content-between">
                                 <div className="d-flex align-items-center justify-content-start"> 
                                     <span>Mon Drive</span>
