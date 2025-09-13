@@ -1,0 +1,14 @@
+.menu-actions {
+    .action {
+        padding: 5px;
+        cursor: pointer;
+        &:hover {
+            background-color: gainsboro;
+            font-weight: bold;
+        }
+        i {
+            font-size: 15px;
+            margin-right: 10px;
+        }
+    }
+}

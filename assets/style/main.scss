@@ -8,4 +8,32 @@ img {
 
 main#root {
     width: 100%;
+    background-color: #f7f7ff;
+    min-height: 100vh;
+}
+
+.list-files {
+    border-radius: .25rem;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+    padding:5px;
+    background-color: white;
+
+    table {
+        tbody {
+            tr {
+                &:nth-child(odd) {
+                    th, td {
+                        background-color: rgba(0, 0, 0, .05);
+                        
+                    }
+                }
+                &.active {
+                    th, td {
+                        background-color: #c2e7ff !important;
+                        
+                    }
+                }
+            }
+        }
+    }
 }

@@ -33,7 +33,7 @@ export const getUser = async () => {
 
     if (response.ok) {
       response = await response.json();
-      useUserStore.setState((state) => ({user: response}));
+      useUserStore.setState(() => ({user: response}));
     }
   } catch {}
 };

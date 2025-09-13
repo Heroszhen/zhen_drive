@@ -44,7 +44,7 @@ function App() {
                 if (clonedResponse.status === 401 && reactLocation.pathname !== '/')navigate('/');
             } else {
                 toast.success('Envoyé', {
-                    autoClose: 1000,
+                    autoClose: 500,
                     theme: "light",
                 });
             }
