@@ -22,7 +22,7 @@ const Drive = () => {
 
     useEffect(() => {
         if (user) {
-            const rootFolder = user.roles.includes('ROLE_ADMIN') ? process.env.APP_ENV : user.name
+            const rootFolder = user.roles.includes('ROLE_ADMIN') ? process.env.APP_ENV : process.env.APP_ENV + '/' + user.name
             setRootDir(rootFolder);
             getFolder(rootFolder);
         }
