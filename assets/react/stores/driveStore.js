@@ -25,7 +25,7 @@ const useDriveStore = create((set, get) => ({
                 });
                 set(() => ({drive: folders.concat(files)}));
             }
-        } catch (e) {}
+        } catch {}
     },
     setDriveIndex: (newIndex) => set({driveIndex: newIndex}),
     setRootDir: (newRootDir) => set({rootDir: newRootDir}),
@@ -54,6 +54,20 @@ const useDriveStore = create((set, get) => ({
             if (response.ok) {
                 response = await response.json();
                 set(() => ({drive: [response, ...get().drive]}));
+            }
+        } catch {}
+    },
+    deleteDriveElement: async (index) => {
+        const headers = getRequestHeaders();
+        try {
+            let response = await fetch(`/api/s3/delete-drive`, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({path: `${get().drive[index]['fullName']}`}),
+            });
+          
+            if (response.ok) {
+                set(() => ({drive:get().drive.filter((item, itemIndex)=>itemIndex !== index)}));
             }
         } catch (e) {}
     }

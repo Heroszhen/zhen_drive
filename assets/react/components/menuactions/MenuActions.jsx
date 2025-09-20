@@ -3,7 +3,15 @@ import './MenuActions.scss';
 import useDriveStore from '../../stores/driveStore';
 
 const MenuActions = () => {
-    const {drive, setDriveIndex, driveIndex} = useDriveStore();
+    const {drive, setDriveIndex, driveIndex, deleteDriveElement} = useDriveStore();
+
+    const removeDriveElement = () => {
+        if (!window.confirm('Veux-tu vraiment supprimer cet élément ?')) {
+            return;
+        }
+        deleteDriveElement(driveIndex);
+        document.body.click();
+    }
 
     return (
         <>
@@ -20,7 +28,7 @@ const MenuActions = () => {
                     <i className="bi bi-pencil"></i>
                     <span>Renommer</span>
                 </div>
-                <div className='action'>
+                <div className='action' onClick={()=>removeDriveElement()}>
                     <i className="bi bi-trash"></i>
                     <span>Supprimer</span>
                 </div>

@@ -17,7 +17,7 @@ const DriveMenu = (props) => {
                                     <i className="bi bi-person-circle"></i>
                                     Profil
                                 </li>
-                                <li className="list-group-item" onClick={()=>props.showForm(2)}>
+                                <li className="list-group-item" onClick={()=>props.toggleForm(2)}>
                                     <i className="bi bi-folder-plus"></i>
                                     Nouveau dossier
                                 </li>

@@ -35,4 +35,14 @@ final class S3Controller extends AbstractController
 
         return $this->json($response);
     }
+
+    #[Route('/delete-drive', name: 'app_s3_delete_drive', methods:['POST'])]
+    public function deleteDrive(Request $request): Response
+    {
+        $content = json_decode($request->getContent(), true);
+
+        $response = $this->s3Service->deleteDrive($content['path']);
+
+        return $this->json(null, true === $response ? Response::HTTP_NO_CONTENT : Response::HTTP_BAD_REQUEST);
+    }
 }

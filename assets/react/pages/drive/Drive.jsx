@@ -38,7 +38,12 @@ const Drive = () => {
         await getFolder(getFolderPath());
     }
 
-    const showForm = (newFormAction = null) => {
+    const toggleForm = (newFormAction = null) => {
+        if (newFormAction === null) {
+            modalCloseBtn.current?.click();
+            return;
+        }
+
         switch(newFormAction) {
             case 1:
                
@@ -55,7 +60,7 @@ const Drive = () => {
 
     const addFolderSubmit = async (data) => {
         await addFolder(data.name);
-        setFormAction(null);
+        toggleForm();
     }
 
     return (
@@ -64,7 +69,7 @@ const Drive = () => {
                 <section className="container-fluid">
                     <div className="row">
                         <div className="col-12 d-lg-block col-lg-3">
-                            <DriveMenu showForm={showForm} />
+                            <DriveMenu toggleForm={toggleForm} />
                         </div>
                         <div className="col-12 col-lg-9">
                             <div className="d-flex align-items-center justify-content-between mb-2">
