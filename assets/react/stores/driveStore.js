@@ -53,8 +53,7 @@ const useDriveStore = create((set, get) => ({
           
             if (response.ok) {
                 response = await response.json();
-                
-                console.log(response)
+                set(() => ({drive: [response, ...get().drive]}));
             }
         } catch (e) {}
     }

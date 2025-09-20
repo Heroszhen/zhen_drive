@@ -55,6 +55,7 @@ const Drive = () => {
 
     const addFolderSubmit = async (data) => {
         await addFolder(data.name);
+        setFormAction(null);
     }
 
     return (
