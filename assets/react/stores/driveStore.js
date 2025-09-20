@@ -36,12 +36,27 @@ const useDriveStore = create((set, get) => ({
         }
         
         const oldPaths = get().paths;
-        const drive = get().drive;
         oldPaths.push(elm.name);
         set({driveIndex: null, paths: oldPaths});
         await get().getFolder(get().getFolderPath());
     },
     setPaths: (newPaths)  => set({paths: newPaths}),
-    getFolderPath: () => get().rootDir + `${get().paths.length === 0 ? '' : '/' + get().paths.join('/')}`
+    getFolderPath: () => get().rootDir + `${get().paths.length === 0 ? '' : '/' + get().paths.join('/')}`,
+    addFolder: async (folderName) => {
+        const headers = getRequestHeaders();
+        try {
+            let response = await fetch(`/api/s3/add-folder`, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({path: `${get().getFolderPath()}/${folderName}`}),
+            });
+          
+            if (response.ok) {
+                response = await response.json();
+                
+                console.log(response)
+            }
+        } catch (e) {}
+    }
 }));
 export default useDriveStore;

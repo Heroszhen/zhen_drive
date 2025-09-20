@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useDriveStore from '../../stores/driveStore';
 import useUserStore from '../../stores/userStore.js';
+import { useForm } from 'react-hook-form';
 
 import DriveList from '../../components/drivelist/DriveList';
 import DriveMenu from '../../components/drivemenu/DriveMenu';
@@ -8,7 +9,16 @@ import DriveMenu from '../../components/drivemenu/DriveMenu';
 const Drive = () => {
     const [layout, setlayout] = useState(1);
     const { user } = useUserStore();
-    const {getFolder, getFolderPath, setRootDir, paths, rootDir, setPaths} = useDriveStore();
+    const {getFolder, getFolderPath, setRootDir, paths, rootDir, setPaths, addFolder} = useDriveStore();
+    const modalBtn = useRef(null);
+    const modalCloseBtn = useRef(null);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm();
+    const [formAction, setFormAction] = useState(null);
 
     useEffect(() => {
         if (user) {
@@ -28,13 +38,32 @@ const Drive = () => {
         await getFolder(getFolderPath());
     }
 
+    const showForm = (newFormAction = null) => {
+        switch(newFormAction) {
+            case 1:
+               
+                break;
+            case 2:
+                reset({
+                    name: null
+                });
+                break;
+        }
+        setFormAction(newFormAction);
+        modalBtn.current?.click();
+    }
+
+    const addFolderSubmit = async (data) => {
+        await addFolder(data.name);
+    }
+
     return (
         <>
             <section id="drive" className="p-2">
                 <section className="container-fluid">
                     <div className="row">
                         <div className="col-12 d-lg-block col-lg-3">
-                            <DriveMenu />
+                            <DriveMenu showForm={showForm} />
                         </div>
                         <div className="col-12 col-lg-9">
                             <div className="d-flex align-items-center justify-content-between mb-2">
@@ -59,13 +88,50 @@ const Drive = () => {
                                     </button>
                                 </div>
                             </div>
-                            
-                            
                             {layout === 1 && <DriveList />}
                         </div>
                     </div>
                 </section>
             </section>
+
+            <button type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#driveModal" ref={modalBtn}></button>
+            <div className="modal fade" id="driveModal" data-bs-backdrop="static" tabIndex="-1" aria-labelledby="driveModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h3 className="modal-title fs-5" id="driveModalLabel">
+                                {formAction===2 && 'Créer un dossier'}
+                            </h3>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" ref={modalCloseBtn}></button>
+                        </div>
+                        <div className="modal-body">
+                            {formAction===2 &&
+                                <form className="" onSubmit={handleSubmit(addFolderSubmit)}>
+                                    <div className="mb-3">
+                                        <label htmlFor="name" className="form-label">Nom du dossier*</label>
+                                        <input 
+                                            type="name" 
+                                            id="name" 
+                                            name="name" 
+                                            className="form-control form-control-sm" 
+                                            autoComplete="off" 
+                                            {...register('name', {
+                                                required: { value: true, message: 'Le champ est obligatoire' }
+                                            })}
+                                        />
+                                        {errors.name?.type === 'required' && (
+                                            <div className="alert alert-danger mt-1">{errors.name?.message}</div>
+                                        )}
+                                    </div>
+                                    <div className="text-center">
+                                        <button className="btn btn-primary btn-sm" type="submit">Envoyer</button>
+                                    </div>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }

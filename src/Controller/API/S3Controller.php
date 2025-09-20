@@ -25,4 +25,14 @@ final class S3Controller extends AbstractController
 
         return $this->json($response);
     }
+
+    #[Route('/add-folder', name: 'app_s3_add_folder', methods:['POST'])]
+    public function addFolder(Request $request): Response
+    {
+        $content = json_decode($request->getContent(), true);
+
+        $response = $this->s3Service->addFolder($content['path']);
+
+        return $this->json($response);
+    }
 }

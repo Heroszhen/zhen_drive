@@ -1,5 +1,6 @@
+import './DriveMenu.scss';
 
-const DriveMenu = () => {
+const DriveMenu = (props) => {
     return (
         <>
             <div className="accordion mb-2" id="accordion-drive-menu">
@@ -10,9 +11,34 @@ const DriveMenu = () => {
                     </button>
                     </h2>
                     <div id="collapseOne" className="accordion-collapse collapse" data-bs-parent="#accordion-drive-menu">
-                    <div className="accordion-body">
-                        <strong>This is the first item’s accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    </div>
+                        <div className="accordion-body">
+                            <ul className="list-group list-group-flush">
+                                <li className="list-group-item">
+                                    <i className="bi bi-person-circle"></i>
+                                    Profil
+                                </li>
+                                <li className="list-group-item" onClick={()=>props.showForm(2)}>
+                                    <i className="bi bi-folder-plus"></i>
+                                    Nouveau dossier
+                                </li>
+                                <li className="list-group-item">
+                                    <i className="bi bi-folder-symlink"></i>
+                                    Importer un dossier
+                                </li>
+                                <li className="list-group-item">
+                                    <i className="bi bi-file-earmark-arrow-up"></i>
+                                    Importer un fichier
+                                </li>
+                                <li className="list-group-item">
+                                    <i className="bi bi-door-closed"></i>
+                                    Déconnexion
+                                </li>
+                                <li className="list-group-item">
+                                    <i className="bi bi-app"></i>
+                                    Installer
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div className="accordion-item">
