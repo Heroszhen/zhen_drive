@@ -5,12 +5,13 @@ import useDriveStore from '../../stores/driveStore';
 const MenuActions = () => {
     const {drive, setDriveIndex, driveIndex, deleteDriveElement} = useDriveStore();
 
-    const removeDriveElement = () => {
+    const removeDriveElement = async () => {
         if (!window.confirm('Veux-tu vraiment supprimer cet élément ?')) {
             return;
         }
-        deleteDriveElement(driveIndex);
+        await deleteDriveElement(driveIndex);
         document.body.click();
+        setDriveIndex(null);
     }
 
     return (

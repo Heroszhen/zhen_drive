@@ -7,6 +7,7 @@ const useDriveStore = create((set, get) => ({
     paths: [],
     rootDir: null,
     getFolder: async (path) => {
+        set(() => ({drive: []}));
         const headers = getRequestHeaders();
         try {
             let response = await fetch(`/api/s3/get-folder`, {
@@ -24,11 +25,26 @@ const useDriveStore = create((set, get) => ({
                     else files.push(elm);
                 });
                 set(() => ({drive: folders.concat(files)}));
+                get().sortDrive();
             }
         } catch {}
     },
     setDriveIndex: (newIndex) => set({driveIndex: newIndex}),
     setRootDir: (newRootDir) => set({rootDir: newRootDir}),
+    sortDrive: () => {
+        const folders = [];
+        const files = [];
+
+        get().drive().forEach(elm => {
+            if (elm.fullName.endsWith('/'))folders.push(elm);
+            else files.push(elm);
+        });
+
+        folders.sort((current, next) => current.name.localeCompare(next.name)); 
+        files.sort((current, next) => current.name.localeCompare(next.name)); 
+
+        set({drive: [...folders, ...files]});
+    },
     addPath: async (driveIndex) => {
         const elm = get().drive[driveIndex];
         if (!elm.fullName.endsWith('/')) {
@@ -54,6 +70,7 @@ const useDriveStore = create((set, get) => ({
             if (response.ok) {
                 response = await response.json();
                 set(() => ({drive: [response, ...get().drive]}));
+                get().sortDrive();
             }
         } catch {}
     },
@@ -67,9 +84,48 @@ const useDriveStore = create((set, get) => ({
             });
           
             if (response.ok) {
-                set(() => ({drive:get().drive.filter((item, itemIndex)=>itemIndex !== index)}));
+                set(() => ({drive:get().drive.filter((item, itemIndex) => itemIndex !== index)}));
             }
-        } catch (e) {}
-    }
+        } catch {}
+    },
+    uploadFolderOrFiles: async (files, isFolder = false) => {
+        const formData = new FormData();
+        const folderPath = get().getFolderPath() + '/';
+        formData.append('total', files.length);
+        formData.append('rootPath', folderPath);
+        for (let index = 0; index < files.length; index++) {
+            const file = files.item(index);
+            formData.append(`file_${index}`, file);
+            if (file.webkitRelativePath !== '') {
+                const tab = file.webkitRelativePath.split('/');
+                tab.pop();
+                formData.append(`file_${index}_folder`, tab.join('/') + '/');
+            }
+        }
+
+        const headers = getRequestHeaders(true);
+        try {
+            let response = await fetch(`/api/s3/upload-folder-files`, {
+                method: 'POST',
+                headers: headers,
+                body: formData,
+            });
+          
+            if (response.ok) {
+                const results = await response.json();
+                if (Array.isArray(results)) {
+                    let path;
+                    results.forEach(file => {console.log(file);
+                        path = file.fullName.substring(0, file.fullName.lastIndexOf('/')) + '/';
+                        if (path === folderPath) {
+                            if (file.fullName.endsWith('/'))set(() => ({drive: [file, ...get().drive]}));
+                            else set(() => ({drive: [...get().drive, file]}));
+                        }
+                    });
+                    get().sortDrive();
+                }
+            }
+        } catch {}
+    },
 }));
 export default useDriveStore;
