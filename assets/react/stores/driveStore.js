@@ -35,13 +35,13 @@ const useDriveStore = create((set, get) => ({
         const folders = [];
         const files = [];
 
-        get().drive().forEach(elm => {
+        get().drive.forEach(elm => {
             if (elm.fullName.endsWith('/'))folders.push(elm);
             else files.push(elm);
         });
 
         folders.sort((current, next) => current.name.localeCompare(next.name)); 
-        files.sort((current, next) => current.name.localeCompare(next.name)); 
+        files.sort((current, next) => current.name.localeCompare(next.name));
 
         set({drive: [...folders, ...files]});
     },
@@ -115,7 +115,7 @@ const useDriveStore = create((set, get) => ({
                 const results = await response.json();
                 if (Array.isArray(results)) {
                     let path;
-                    results.forEach(file => {console.log(file);
+                    results.forEach(file => {
                         path = file.fullName.substring(0, file.fullName.lastIndexOf('/')) + '/';
                         if (path === folderPath) {
                             if (file.fullName.endsWith('/'))set(() => ({drive: [file, ...get().drive]}));
