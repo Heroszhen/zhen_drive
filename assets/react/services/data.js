@@ -1,5 +1,5 @@
 export const getImageExtensions = () => {
-  return ['png', 'gif', 'jpeg', 'jpg']
+  return ['png', 'gif', 'jpeg', 'jpg', 'webp']
 }
 
 export const getRequestHeaders = (isFormData = false) => {
@@ -18,8 +18,11 @@ export const getRequestHeaders = (isFormData = false) => {
 
 export const getExtensionIcon = (driveElm) => {
   if (driveElm['fullName'].endsWith('/')) return <i className="bi bi-folder-fill"></i>;
-  if (driveElm['extension'] === 'pdf') return <i className="bi bi-file-earmark-pdf-fill"></i>;
-  if (getImageExtensions().includes(driveElm['extension'].toLowerCase())) return <i className="bi bi-file-earmark-image"></i>;
+
+  const extension = driveElm['extension'].toLowerCase();
+  if (extension === 'pdf') return <i className="bi bi-file-earmark-pdf-fill"></i>;
+  if (getImageExtensions().includes(extension)) return <i className="bi bi-file-earmark-image"></i>;
+  else return <i className="bi bi-file-x"></i>;
 }
 
 export const getDropDownMenuPosition = () => {

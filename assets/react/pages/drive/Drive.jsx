@@ -76,7 +76,9 @@ const Drive = () => {
                                 <div className="d-flex align-items-center justify-content-start"> 
                                     {paths.length > 0 &&
                                         <select value={paths.length - 1} className="form-select form-select-sm" onChange={(e)=>changePath(e.target.value)}>
-                                            <option  value='-1'>{rootDir.replace(new RegExp(`^${process.env.APP_ENV}/`), '')}</option>
+                                            <option  value='-1'>
+                                                {user.roles.includes('ROLE_ADMIN') ? rootDir : rootDir.replace(new RegExp(`^${process.env.APP_ENV}/`), '')}
+                                            </option>
                                             {
                                                 paths.map((path,  index)=>(
                                                     <option key={index} value={index}>{path}</option>
