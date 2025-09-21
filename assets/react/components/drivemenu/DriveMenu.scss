@@ -1,0 +1,13 @@
+#accordion-drive-menu {
+    #collapseOne {
+        .list-group-item {
+            cursor: pointer;
+            i {
+                margin-right: 5px;
+            }
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

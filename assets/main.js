@@ -7,6 +7,7 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './style/main.scss';
+import 'uno.css';
 
 import { createRoot } from 'react-dom/client';
 import App from './react/App.jsx';
@@ -14,8 +15,11 @@ import { BrowserRouter } from 'react-router-dom';
 // Bootstrap Bundle JS
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-);
+const root = document.getElementById('root');
+if (root) {
+  createRoot(root).render(
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+}
