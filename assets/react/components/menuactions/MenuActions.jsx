@@ -3,7 +3,7 @@ import './MenuActions.scss';
 import useDriveStore from '../../stores/driveStore';
 
 const MenuActions = () => {
-    const {drive, setDriveIndex, driveIndex, deleteDriveElement} = useDriveStore();
+    const {drive, setDriveIndex, driveIndex, deleteDriveElement, addPath} = useDriveStore();
 
     const removeDriveElement = async () => {
         if (!window.confirm('Veux-tu vraiment supprimer cet élément ?')) {
@@ -17,7 +17,7 @@ const MenuActions = () => {
     return (
         <>
             <div className="menu-actions">
-                <div className='action'>
+                <div className='action' onClick={()=>addPath(driveIndex)}>
                     <i className="bi bi-book"></i>
                     <span>Ouvrir</span>
                 </div>
