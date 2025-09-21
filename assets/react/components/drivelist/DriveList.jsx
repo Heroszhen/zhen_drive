@@ -36,7 +36,9 @@ const DriveList = (props) => {
                                         {elm.name}
                                     </div>
                                 </th>
-                                <td>{elm.size}</td>
+                                <td>
+                                    {elm.fullName.endsWith('/') ? '-' : elm.size}
+                                </td>
                                 <td>{moment(elm.updated).format('DD/MM/YYYY')}</td>
                                 <td>
                                     <div className="dropdown">

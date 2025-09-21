@@ -75,6 +75,9 @@ const Home = () => {
                             </label>
                         </div>
                     </div>
+                    <div className="mb-3">
+                        Mot de passe oublié
+                    </div>
                     <div className="d-grid gap-2">
                         <button className="btn btn-primary" type="submit">Envoyer</button>
                     </div>
