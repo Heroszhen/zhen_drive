@@ -115,11 +115,13 @@ const useDriveStore = create((set, get) => ({
                 const results = await response.json();
                 if (Array.isArray(results)) {
                     let path;
-                    results.forEach(file => {
-                        path = file.fullName.substring(0, file.fullName.lastIndexOf('/')) + '/';
-                        if (path === folderPath) {
-                            if (file.fullName.endsWith('/'))set(() => ({drive: [file, ...get().drive]}));
-                            else set(() => ({drive: [...get().drive, file]}));
+                    results.forEach(elm => {
+                        if (elm.fullName.endsWith('/')) {//folder
+                            path = `${folderPath}${elm.name}/`;
+                            if (path === elm.fullName)set(() => ({drive: [elm, ...get().drive]}));
+                        } else {//file
+                            path = elm.fullName.substring(0, elm.fullName.lastIndexOf('/')) + '/';
+                            if (path === folderPath)set(() => ({drive: [...get().drive, elm]}));
                         }
                     });
                     get().sortDrive();

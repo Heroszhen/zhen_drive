@@ -2,6 +2,7 @@
 
 namespace App\Controller\API;
 
+use App\Model\S3File;
 use App\Services\S3Service;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,6 +58,7 @@ final class S3Controller extends AbstractController
         $rootPath = !str_ends_with($rootPath, '/') ? $rootPath.'/' : $rootPath;
 
         $driveFiles = [];
+        $newFolder = [];
         $total = (int) $form->get('total');
         for ($index = 0; $index < $total; $index++) {
              /** @var UploadedFile $file */
@@ -65,9 +67,18 @@ final class S3Controller extends AbstractController
             if ($form->get("file_{$index}_folder")) {
                 $folderPath .= $form->get("file_{$index}_folder");
                 $folderPath = !str_ends_with($folderPath, '/') ? $folderPath.'/' : $folderPath;
+
+                $tab = explode('/', $form->get("file_{$index}_folder"));
+                $newFolder[] = $tab[0];
             }
             $result = $this->s3Service->sendFile($file, $folderPath);
             $driveFiles[] = $result;
+        }
+
+        foreach (array_unique($newFolder) as $folder) {
+            $name = rtrim($folder, '/');
+            $s3file = new S3File($name, $rootPath.$name.'/');
+            $driveFiles[] = $s3file;
         }
 
         return $this->json($driveFiles, 201);
