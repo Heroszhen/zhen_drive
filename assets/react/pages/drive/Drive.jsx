@@ -19,6 +19,7 @@ const Drive = () => {
         reset,
     } = useForm();
     const [formAction, setFormAction] = useState(null);
+    const [keywords, setKewords] = useState('');
 
     useEffect(() => {
         if (user) {
@@ -96,7 +97,23 @@ const Drive = () => {
                                     </button>
                                 </div>
                             </div>
-                            {layout === 1 && <DriveList />}
+
+                            <div className="pt-1 pb-1">
+                                <div className="input-group mb-3">
+                                    <input 
+                                        type="search" 
+                                        className="form-control form-control-lg" 
+                                        placeholder="nom" 
+                                        aria-label="Recipient’s username" 
+                                        aria-describedby="button-addon2"
+                                        defaultValue={keywords}
+                                        onInput={(e)=>setKewords(e.target.value)}
+                                    />
+                                    <button className="btn btn-outline-primary" type="button" id="button-addon2">Button</button>
+                                </div>
+                            </div>
+
+                            {layout === 1 && <DriveList keywords={keywords} />}
                         </div>
                     </div>
                 </section>

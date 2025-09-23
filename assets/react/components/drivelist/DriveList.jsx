@@ -21,38 +21,40 @@ const DriveList = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {drive.map((elm, index) => (
-                            <tr 
-                                key={index} 
-                                className={`${driveIndex===index ? 'active' : ''}`} 
-                                onClick={(e) => setDriveIndex(index)}
-                                onDoubleClick={()=> addPath(index)}
-                            >
-                                <th scope="row">
-                                    <div className="d-flex align-items-center">
-                                        <span className="me-2 text-[23px]">
-                                            {getExtensionIcon(elm)}
-                                        </span>
-                                        {elm.name}
-                                    </div>
-                                </th>
-                                <td>
-                                    {elm.fullName.endsWith('/') ? '-' : elm.size}
-                                </td>
-                                <td>{moment(elm.updated).format('DD/MM/YYYY')}</td>
-                                <td>
-                                    <div className="dropdown">
-                                        <div data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i className="bi bi-three-dots"></i>
+                        {drive
+                            .filter((elm) => elm.name.toLowerCase().includes(props.keywords.toLowerCase()))
+                            .map((elm, index) => (
+                                <tr 
+                                    key={index} 
+                                    className={`${driveIndex===index ? 'active' : ''}`} 
+                                    onClick={(e) => setDriveIndex(index)}
+                                    onDoubleClick={()=> addPath(index)}
+                                >
+                                    <th scope="row">
+                                        <div className="d-flex align-items-center">
+                                            <span className="me-2 text-[23px]">
+                                                {getExtensionIcon(elm)}
+                                            </span>
+                                            {elm.name}
                                         </div>
-                                        <div className="dropdown-menu p-1" style={getDropDownMenuPosition()} onClick={(e)=>e.stopPropagation()}>
-                                            {driveIndex===index &&
-                                                <MenuActions />                
-                                            }
+                                    </th>
+                                    <td>
+                                        {elm.fullName.endsWith('/') ? '-' : elm.size}
+                                    </td>
+                                    <td>{moment(elm.updated).format('DD/MM/YYYY')}</td>
+                                    <td>
+                                        <div className="dropdown">
+                                            <div data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i className="bi bi-three-dots"></i>
+                                            </div>
+                                            <div className="dropdown-menu p-1" style={getDropDownMenuPosition()} onClick={(e)=>e.stopPropagation()}>
+                                                {driveIndex===index &&
+                                                    <MenuActions />                
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
                         ))}
                     </tbody>
                 </table>
