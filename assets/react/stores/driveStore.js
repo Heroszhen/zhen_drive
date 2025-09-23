@@ -129,5 +129,17 @@ const useDriveStore = create((set, get) => ({
             }
         } catch {}
     },
+    getBucketInfo: async (path) => {
+        const headers = getRequestHeaders();
+        try {
+            let response = await fetch(`/api/s3/get-bucket`, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({path: path}),
+            });
+          
+            if (response.ok)return await response.json();
+        } catch {}
+    }
 }));
 export default useDriveStore;

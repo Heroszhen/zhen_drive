@@ -1,5 +1,5 @@
 #accordion-drive-menu {
-    #collapseOne {
+    .accordion-body {
         .list-group-item {
             cursor: pointer;
             i {
@@ -7,6 +7,25 @@
             }
             &:hover {
                 text-decoration: underline;
+            }
+
+            &.drive-info {
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                margin-bottom: 5px;
+                .wrap-icon {
+                    padding: 5px;
+                    padding-left: 7px;
+                    background-color: #e9ecef;
+                    border-radius: .25rem;
+                    i {
+                        font-size: 22px;
+                    }
+                }
+                .wrap-type {
+                    padding-left: 5px;
+                }
             }
         }
     }

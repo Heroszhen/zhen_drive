@@ -83,4 +83,14 @@ final class S3Controller extends AbstractController
 
         return $this->json($driveFiles, 201);
     }
+
+    #[Route('/get-bucket', name: 'app_s3_get_bucket', methods:['POST'])]
+    public function getBucketInfo(Request $request): Response
+    {
+        $content = json_decode($request->getContent(), true);
+
+        $result = $this->s3Service->getBucket($content['path']);
+    
+        return $this->json($result);
+    }
 }

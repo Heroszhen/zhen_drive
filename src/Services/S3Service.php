@@ -69,4 +69,14 @@ class S3Service
 
         return $decodedResponse ?? [];
     }
+
+    public function getBucket(string $path): array
+    {
+        $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'].'/s3files/bucket', [
+            'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $path]
+        ]);
+        $decodedResponse = json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+
+        return $decodedResponse ?? [];
+    }
 }
