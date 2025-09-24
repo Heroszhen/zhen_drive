@@ -80,7 +80,7 @@ function App() {
                     theme="light"
                 />
 
-                <MessageModal type={modalConfig.type} message={modalConfig.message} />
+                <MessageModal type={modalConfig.type} message={modalConfig.message} setModalConfig={setModalConfig} />
             </MessageModalContext.Provider>
         </>
     )

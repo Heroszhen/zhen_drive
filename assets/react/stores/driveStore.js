@@ -88,15 +88,16 @@ const useDriveStore = create((set, get) => ({
             }
         } catch {}
     },
-    uploadFolderOrFiles: async (files, isFolder = false) => {
+    uploadFolderOrFiles: async (files) => {
         const formData = new FormData();
         const folderPath = get().getFolderPath() + '/';
         formData.append('total', files.length);
         formData.append('rootPath', folderPath);
         files.forEach((file, index) => {
             formData.append(`file_${index}`, file);
-            if (file.webkitRelativePath !== '') {
-                const tab = file.webkitRelativePath.split('/');
+            const fullPath = file.webkitRelativePath !== '' ? file.webkitRelativePath : file.fullPath;
+            if (fullPath && fullPath !== '') {
+                const tab = fullPath.split('/');
                 tab.pop();
                 formData.append(`file_${index}_folder`, tab.join('/') + '/');
             }
