@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import RoutesWrapper from './route/RoutesWrapper';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from './components/loader/Loader';
 import { ToastContainer, toast } from 'react-toastify';
 import useUserStore, { getUser } from './stores/userStore.js';
+import MessageModal from './components/messagemodal/MessageModal';
+
+export const MessageModalContext = createContext();
 
 function App() {
     const navigate = useNavigate();
@@ -12,6 +15,7 @@ function App() {
     const { fetch: originalFetch } = window;
     const [loader, setLoader] = useState(false);
     const { user } = useUserStore();
+    const [modalConfig, setModalConfig] = useState({ type: null, message: null });
 
     useEffect(() => {
         window.fetch = async (...args) => {
@@ -56,24 +60,28 @@ function App() {
         if (user === null && localStorage.getItem('token') !== null) {
           getUser();
         }
-      }, []);
+    }, []);
 
     return(
         <>
-            <RoutesWrapper canQuery={canQuery} />
-            {loader && <Loader />}
+            <MessageModalContext.Provider value={{ setModalConfig }}>
+                <RoutesWrapper canQuery={canQuery} />
+                {loader && <Loader />}
 
-            <ToastContainer
-                position="top-right"
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick={false}
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
+                <ToastContainer
+                    position="top-right"
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick={false}
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
+
+                <MessageModal type={modalConfig.type} message={modalConfig.message} />
+            </MessageModalContext.Provider>
         </>
     )
 }

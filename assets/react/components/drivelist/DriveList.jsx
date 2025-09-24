@@ -10,7 +10,7 @@ const DriveList = (props) => {
 
     return (
         <>
-            <section id="drive-list" className="list-files">
+            <section id="drive-list" className="list-files  min-h-[600px]">
                 <table className="table">
                     <thead>
                         <tr>

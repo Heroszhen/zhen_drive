@@ -1,5 +1,12 @@
-export const getImageExtensions = () => {
-  return ['png', 'gif', 'jpeg', 'jpg', 'webp']
+export const IMAGE_EXTENSIONS = ['png', 'gif', 'jpeg', 'jpg', 'webp'];
+
+export const getMaxFileSize = (unity='byte') => {
+  switch (unity) {
+    case "mo":
+      return 10
+    default:
+      return 10485760;
+  }
 }
 
 export const getRequestHeaders = (isFormData = false) => {
@@ -21,7 +28,7 @@ export const getExtensionIcon = (driveElm) => {
 
   const extension = driveElm['extension'].toLowerCase();
   if (extension === 'pdf') return <i className="bi bi-file-earmark-pdf-fill"></i>;
-  if (getImageExtensions().includes(extension)) return <i className="bi bi-file-earmark-image"></i>;
+  if (IMAGE_EXTENSIONS.includes(extension)) return <i className="bi bi-file-earmark-image"></i>;
   else return <i className="bi bi-file-x"></i>;
 }
 

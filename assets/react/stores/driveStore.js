@@ -93,16 +93,15 @@ const useDriveStore = create((set, get) => ({
         const folderPath = get().getFolderPath() + '/';
         formData.append('total', files.length);
         formData.append('rootPath', folderPath);
-        for (let index = 0; index < files.length; index++) {
-            const file = files.item(index);
+        files.forEach((file, index) => {
             formData.append(`file_${index}`, file);
             if (file.webkitRelativePath !== '') {
                 const tab = file.webkitRelativePath.split('/');
                 tab.pop();
                 formData.append(`file_${index}_folder`, tab.join('/') + '/');
             }
-        }
-
+        });
+        
         const headers = getRequestHeaders(true);
         try {
             let response = await fetch(`/api/s3/upload-folder-files`, {

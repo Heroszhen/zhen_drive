@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 
 import DriveList from '../../components/drivelist/DriveList';
 import DriveMenu from '../../components/drivemenu/DriveMenu';
+import DraggableField from '../../components/draggablefield/DraggableField';
 
 const Drive = () => {
     const [layout, setlayout] = useState(1);
@@ -112,8 +113,10 @@ const Drive = () => {
                                     <button className="btn btn-outline-primary" type="button" id="button-addon2">Button</button>
                                 </div>
                             </div>
-
-                            {layout === 1 && <DriveList keywords={keywords} />}
+                            
+                            <DraggableField>
+                                {layout === 1 && <DriveList keywords={keywords} />}
+                            </DraggableField>
                         </div>
                     </div>
                 </section>

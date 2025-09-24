@@ -1,8 +1,10 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import './DriveMenu.scss';
 import { logout } from '../../services/util';
 import useDriveStore from '../../stores/driveStore';
 import useUserStore from '../../stores/userStore';
+import { MessageModalContext } from '../../App';
+import { getMaxFileSize } from '../../services/data';
 
 const DriveMenu = (props) => {
     const dirInputRef = useRef(null);
@@ -11,6 +13,7 @@ const DriveMenu = (props) => {
     const {user} = useUserStore();
     const [driveInfo, setDriveInfo] = useState(null);
     const [bucketInfo, setBucketInfo] = useState(null);
+    const { setModalConfig } = useContext(MessageModalContext);
 
     useEffect(() => {
         if (user === null)return;
@@ -23,7 +26,17 @@ const DriveMenu = (props) => {
 
     const uploadFiles = async (e, isFolder = false) => {
         if (e.target.files.length === 0)return;
-        await uploadFolderOrFiles(e.target.files, isFolder);
+
+        const files = [];
+        let errorMsg = '';
+        for (let index = 0; index < e.target.files.length; index++) {
+            const file = e.target.files.item(index);
+            if (file.size > getMaxFileSize())errorMsg += `${file.name}(${file.size} bytes) trop gros <br />`;
+            files.push(file);
+        }
+
+        if (errorMsg !== '')setModalConfig({type: 'danger', message: errorMsg});
+        else await uploadFolderOrFiles(files, isFolder);
     }
 
     return (
