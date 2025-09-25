@@ -93,4 +93,14 @@ final class S3Controller extends AbstractController
     
         return $this->json($result);
     }
+
+    #[Route('/get-file-url', name: 'app_s3_get_file-url', methods:['POST'])]
+    public function getFileUrl(Request $request): Response
+    {
+        $content = json_decode($request->getContent(), true);
+
+        $result = $this->s3Service->getFileUrl($content['path']);
+    
+        return $this->json($result);
+    }
 }

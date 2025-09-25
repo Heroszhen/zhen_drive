@@ -8,9 +8,14 @@ import MenuActions from '../menuactions/MenuActions';
 const DriveList = (props) => {
     const {drive, setDriveIndex, driveIndex, addPath} = useDriveStore();
 
+    const openDriveElement = (index) => {
+        if (drive[index].fullName.endsWith('/'))addPath(index);
+        else props.viewFile(index);
+    }
+
     return (
         <>
-            <section id="drive-list" className="list-files  min-h-[600px]">
+            <section id="drive-list" className="list-files min-h-[600px]">
                 <table className="table">
                     <thead>
                         <tr>
@@ -28,7 +33,7 @@ const DriveList = (props) => {
                                     key={index} 
                                     className={`${driveIndex===index ? 'active' : ''}`} 
                                     onClick={(e) => setDriveIndex(index)}
-                                    onDoubleClick={()=> addPath(index)}
+                                    onDoubleClick={()=> openDriveElement(index)}
                                 >
                                     <th scope="row">
                                         <div className="d-flex align-items-center">
@@ -49,7 +54,7 @@ const DriveList = (props) => {
                                             </div>
                                             <div className="dropdown-menu p-1" style={getDropDownMenuPosition()} onClick={(e)=>e.stopPropagation()}>
                                                 {driveIndex===index &&
-                                                    <MenuActions />                
+                                                    <MenuActions openDriveElement={openDriveElement} />                
                                                 }
                                             </div>
                                         </div>

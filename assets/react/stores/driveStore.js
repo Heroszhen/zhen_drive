@@ -140,6 +140,21 @@ const useDriveStore = create((set, get) => ({
           
             if (response.ok)return await response.json();
         } catch {}
+    },
+    getFileUrl: async (index) => {
+        const headers = getRequestHeaders();
+        try {
+            let response = await fetch(`/api/s3/get-file-url`, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({path: get().drive[index].fullName}),
+            });
+          
+            if (response.ok) {
+                const result = await response.json();
+                return {...get().drive[index], url: result.url};
+            }
+        } catch {}
     }
 }));
 export default useDriveStore;

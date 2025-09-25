@@ -6,11 +6,12 @@ import { useForm } from 'react-hook-form';
 import DriveList from '../../components/drivelist/DriveList';
 import DriveMenu from '../../components/drivemenu/DriveMenu';
 import DraggableField from '../../components/draggablefield/DraggableField';
+import ReaderModal from '../../components/ReaderModal/ReaderModal';
 
 const Drive = () => {
     const [layout, setlayout] = useState(1);
     const { user } = useUserStore();
-    const {getFolder, getFolderPath, setRootDir, paths, rootDir, setPaths, addFolder} = useDriveStore();
+    const {getFolder, getFolderPath, setRootDir, paths, rootDir, setPaths, addFolder, getFileUrl} = useDriveStore();
     const modalBtn = useRef(null);
     const modalCloseBtn = useRef(null);
     const {
@@ -21,6 +22,8 @@ const Drive = () => {
     } = useForm();
     const [formAction, setFormAction] = useState(null);
     const [keywords, setKewords] = useState('');
+    const [showReaderModal, setShowReaderModal] = useState(false);
+    const [driveFile, setDriveFile] = useState(null);
 
     useEffect(() => {
         if (user) {
@@ -63,6 +66,13 @@ const Drive = () => {
     const addFolderSubmit = async (data) => {
         await addFolder(data.name);
         toggleForm();
+    }
+
+    const viewFile = async (index) => {
+        setDriveFile(null);
+        setShowReaderModal(true);
+        const file = await getFileUrl(index);
+        setDriveFile(file);
     }
 
     return (
@@ -115,7 +125,7 @@ const Drive = () => {
                             </div>
                             
                             <DraggableField>
-                                {layout === 1 && <DriveList keywords={keywords} />}
+                                {layout === 1 && <DriveList keywords={keywords} viewFile={viewFile} />}
                             </DraggableField>
                         </div>
                     </div>
@@ -160,6 +170,9 @@ const Drive = () => {
                     </div>
                 </div>
             </div>
+
+            {showReaderModal && <ReaderModal setShowReaderModal={setShowReaderModal} driveFile={driveFile} />}              
+            
         </>
     );
 }
