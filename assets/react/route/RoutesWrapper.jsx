@@ -2,8 +2,8 @@ import { Routes, Route } from 'react-router-dom';
 import LoginGuard from './LoginGuard.jsx';
 import AdminGuard from './AdminGuard.jsx';
 
-import Home from '../pages/home/Home.jsx';
-import Drive from '../pages/drive/Drive.jsx';
+import Home from '../pages/Home/Home.jsx';
+import Drive from '../pages/Drive/Drive.jsx';
 
 
 const RoutesWrapper = (props) => {

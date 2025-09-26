@@ -3,7 +3,7 @@ import useDriveStore from '../../stores/driveStore';
 import moment from 'moment';
 import { getExtensionIcon, getDropDownMenuPosition } from '../../services/data';
 
-import MenuActions from '../menuactions/MenuActions';
+import MenuActions from '../MenuActions/MenuActions';
 
 const DriveList = (props) => {
     const {drive, setDriveIndex, driveIndex, addPath} = useDriveStore();

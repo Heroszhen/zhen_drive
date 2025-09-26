@@ -1,10 +1,10 @@
 import React, { useState, useEffect, createContext } from 'react';
 import RoutesWrapper from './route/RoutesWrapper';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Loader from './components/loader/Loader';
+import Loader from './components/Loader/Loader';
 import { ToastContainer, toast } from 'react-toastify';
 import useUserStore, { getUser } from './stores/userStore.js';
-import MessageModal from './components/messagemodal/MessageModal';
+import MessageModal from './components/MessageModal/MessageModal';
 
 export const MessageModalContext = createContext();
 

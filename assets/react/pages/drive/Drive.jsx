@@ -3,9 +3,9 @@ import useDriveStore from '../../stores/driveStore';
 import useUserStore from '../../stores/userStore.js';
 import { useForm } from 'react-hook-form';
 
-import DriveList from '../../components/drivelist/DriveList';
-import DriveMenu from '../../components/drivemenu/DriveMenu';
-import DraggableField from '../../components/draggablefield/DraggableField';
+import DriveList from '../../components/DriveList/DriveList';
+import DriveMenu from '../../components/DriveMenu/DriveMenu';
+import DraggableField from '../../components/DraggableField/DraggableField';
 import ReaderModal from '../../components/ReaderModal/ReaderModal';
 
 const Drive = () => {

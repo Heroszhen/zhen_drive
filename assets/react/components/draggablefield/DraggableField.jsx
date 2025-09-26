@@ -1,7 +1,7 @@
 import React, { useRef, useContext } from 'react';
 import { getMaxFileSize } from '../../services/data';
 import { MessageModalContext } from '../../App';
-import { MESSAGE_TYPE_ERROR } from '../messagemodal/MessageModal';
+import { MESSAGE_TYPE_ERROR } from '../MessageModal/MessageModal';
 import useDriveStore from '../../stores/driveStore';
 
 const DraggableField = ({ children }) => {
