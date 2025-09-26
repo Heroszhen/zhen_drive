@@ -41,7 +41,7 @@ const DraggableField = ({ children }) => {
             errors.forEach(file => errorMsg += `${file.fullPath} trop gros<br/>`);
             setModalConfig({type: MESSAGE_TYPE_ERROR, message: errorMsg});
         } else {
-            uploadFolderOrFiles(files);
+            if (files.length > 0)uploadFolderOrFiles(files);
         }
     }
 

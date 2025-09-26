@@ -3,7 +3,7 @@ import useDriveStore from '../../stores/driveStore';
 import moment from 'moment';
 import { getExtensionIcon, getDropDownMenuPosition } from '../../services/data';
 
-import MenuActions from '../MenuActions/MenuActions';
+import MenuActions from '../Menuactions/MenuActions';
 
 const DriveList = (props) => {
     const {drive, setDriveIndex, driveIndex, addPath} = useDriveStore();
@@ -34,6 +34,7 @@ const DriveList = (props) => {
                                     className={`${driveIndex===index ? 'active' : ''}`} 
                                     onClick={(e) => setDriveIndex(index)}
                                     onDoubleClick={()=> openDriveElement(index)}
+                                    data-key={index}
                                 >
                                     <th scope="row">
                                         <div className="d-flex align-items-center">
