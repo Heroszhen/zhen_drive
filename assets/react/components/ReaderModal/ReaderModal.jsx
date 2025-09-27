@@ -47,8 +47,10 @@ const ReaderModal = (props) => {
             }}></i>
         </div>
         {props.driveFile && (
-          <div className="w-[800px] mx-auto mt-[40px] mw-100 h-[calc(100%-40px)] d-flex align-items-center p-1">
-            {props.driveFile.extension === 'pdf' && <iframe src={props.driveFile.url} className="w-100 h-100"></iframe>}
+          <div className="w-[800px] mx-auto mt-[38px] mw-100 h-[calc(100%-38px)] p-1 overflow-y-auto">
+            {props.driveFile.extension === 'pdf' && (
+              <iframe src={props.driveFile.url} className="w-100 h-[99%]"></iframe>
+            )}
             {IMAGE_EXTENSIONS.includes(props.driveFile.extension) && (
               <img src={props.driveFile.url} className="w-100 h-auto" />
             )}
