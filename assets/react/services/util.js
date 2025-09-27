@@ -1,4 +1,4 @@
 export const logout = () => {
-    localStorage.removeItem('token');
-    location.replace('/');
-}
+  localStorage.removeItem('token');
+  location.replace('/');
+};

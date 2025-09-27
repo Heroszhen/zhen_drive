@@ -5,7 +5,6 @@ import AdminGuard from './AdminGuard.jsx';
 import Home from '../pages/Home/Home.jsx';
 import Drive from '../pages/Drive/Drive.jsx';
 
-
 const RoutesWrapper = (props) => {
   return (
     <>
@@ -17,9 +16,7 @@ const RoutesWrapper = (props) => {
               <Route path="/mon-drive" element={<Drive />} />
             </Route>
 
-            <Route element={<AdminGuard />}>
-            
-            </Route>
+            <Route element={<AdminGuard />}></Route>
           </>
         )}
       </Routes>

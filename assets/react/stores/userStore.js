@@ -1,27 +1,27 @@
 import { create } from 'zustand';
-import { getRequestHeaders } from '../services/data';
+import { getRequestHeaders } from '../services/data.js';
 
-const useUserStore = create((set, get) => ({
-    user: null,
+const useUserStore = create(() => ({
+  user: null,
 }));
 export default useUserStore;
 
 export const getAuth = async (data) => {
-    const headers = getRequestHeaders();
-    delete headers['Authorization'];
-    try {
-      let response = await fetch(`${process.env.DOMAIN}/api/auth`, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(data),
-      });
-  
-      response = await response.json()
-      if (response.token) {
-        localStorage.setItem('token', response.token);
-        getUser();
-      }
-    } catch {}
+  const headers = getRequestHeaders();
+  delete headers.Authorization;
+  try {
+    let response = await fetch(`${process.env.DOMAIN}/api/auth`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data),
+    });
+
+    response = await response.json();
+    if (response.token) {
+      localStorage.setItem('token', response.token);
+      getUser();
+    }
+  } catch {}
 };
 
 export const getUser = async () => {
@@ -33,7 +33,7 @@ export const getUser = async () => {
 
     if (response.ok) {
       response = await response.json();
-      useUserStore.setState(() => ({user: response}));
+      useUserStore.setState(() => ({ user: response }));
     }
   } catch {}
 };

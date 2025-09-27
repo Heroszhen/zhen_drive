@@ -9,80 +9,80 @@ import MessageModal from './components/MessageModal/MessageModal';
 export const MessageModalContext = createContext();
 
 function App() {
-    const navigate = useNavigate();
-    const reactLocation = useLocation();
-    const [canQuery, setCanQuery] = useState(false);
-    const { fetch: originalFetch } = window;
-    const [loader, setLoader] = useState(false);
-    const { user } = useUserStore();
-    const [modalConfig, setModalConfig] = useState({ type: null, message: null });
+  const navigate = useNavigate();
+  const reactLocation = useLocation();
+  const [canQuery, setCanQuery] = useState(false);
+  const { fetch: originalFetch } = window;
+  const [loader, setLoader] = useState(false);
+  const { user } = useUserStore();
+  const [modalConfig, setModalConfig] = useState({ type: null, message: null });
 
-    useEffect(() => {
-        window.fetch = async (...args) => {
-            setLoader(true);
+  useEffect(() => {
+    window.fetch = async (...args) => {
+      setLoader(true);
 
-            const [url, options = {}] = args;
-            if (options.method.toLowerCase() === 'patch') {
-                options.headers['Content-Type'] = 'application/merge-patch+json';
-            }
-            const response = await originalFetch.apply(this, [url, options]);
+      const [url, options = {}] = args;
+      if (options.method.toLowerCase() === 'patch') {
+        options.headers['Content-Type'] = 'application/merge-patch+json';
+      }
+      const response = await originalFetch.apply(this, [url, options]);
 
-            setLoader(false);
-    
-            const clonedResponse = response.clone();
-            if (clonedResponse.ok === false) {
-                let msg = '';
-                const jsonResponse = await clonedResponse.json();
-                if (jsonResponse.message) msg += jsonResponse.message + ' ';
-                if (jsonResponse.violations) {
-                    for (let entry of jsonResponse.violations) {
-                    msg += `${entry['propertyPath']} : ${entry['message']} `;
-                    }
-                }
-                if (jsonResponse['hydra:description']) msg += jsonResponse['hydra:description'] + ' ';
-                toast.error(msg, {
-                    autoClose: 5000,
-                    theme: "light",
-                });
+      setLoader(false);
 
-                if (clonedResponse.status === 401 && reactLocation.pathname !== '/')navigate('/');
-            } else if (options.method.toLowerCase() !== 'get') {
-                toast.success('Envoyé', {
-                    autoClose: 300,
-                    theme: "light",
-                });
-            }
-            
-            return response;
-        };
-        setCanQuery(true);
-
-        if (user === null && localStorage.getItem('token') !== null) {
-          getUser();
+      const clonedResponse = response.clone();
+      if (clonedResponse.ok === false) {
+        let msg = '';
+        const jsonResponse = await clonedResponse.json();
+        if (jsonResponse.message) msg += jsonResponse.message + ' ';
+        if (jsonResponse.violations) {
+          for (let entry of jsonResponse.violations) {
+            msg += `${entry['propertyPath']} : ${entry['message']} `;
+          }
         }
-    }, []);
+        if (jsonResponse['hydra:description']) msg += jsonResponse['hydra:description'] + ' ';
+        toast.error(msg, {
+          autoClose: 5000,
+          theme: 'light',
+        });
 
-    return(
-        <>
-            <MessageModalContext.Provider value={{ setModalConfig }}>
-                <RoutesWrapper canQuery={canQuery} />
-                {loader && <Loader />}
+        if (clonedResponse.status === 401 && reactLocation.pathname !== '/') navigate('/');
+      } else if (options.method.toLowerCase() !== 'get') {
+        toast.success('Envoyé', {
+          autoClose: 300,
+          theme: 'light',
+        });
+      }
 
-                <ToastContainer
-                    position="top-right"
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick={false}
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="light"
-                />
+      return response;
+    };
+    setCanQuery(true);
 
-                <MessageModal type={modalConfig.type} message={modalConfig.message} setModalConfig={setModalConfig} />
-            </MessageModalContext.Provider>
-        </>
-    )
+    if (user === null && localStorage.getItem('token') !== null) {
+      getUser();
+    }
+  }, []);
+
+  return (
+    <>
+      <MessageModalContext.Provider value={{ setModalConfig }}>
+        <RoutesWrapper canQuery={canQuery} />
+        {loader && <Loader />}
+
+        <ToastContainer
+          position="top-right"
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+
+        <MessageModal type={modalConfig.type} message={modalConfig.message} setModalConfig={setModalConfig} />
+      </MessageModalContext.Provider>
+    </>
+  );
 }
 export default App;
