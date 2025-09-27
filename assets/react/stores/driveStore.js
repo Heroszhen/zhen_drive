@@ -6,7 +6,9 @@ const useDriveStore = create((set, get) => ({
   driveIndex: null,
   paths: [],
   rootDir: null,
-  getFolder: async (path) => {
+  getFolder: async (path = null) => {
+    if (path === null)path = get().getFolderPath() + '/';
+
     set(() => ({ drive: [] }));
     const headers = getRequestHeaders();
     try {

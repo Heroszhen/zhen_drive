@@ -29,6 +29,14 @@ const MenuActions = (props) => {
           <i className="bi bi-pencil"></i>
           <span>Renommer</span>
         </div>
+        <div className="action">
+          <i className="bi bi-folder-symlink"></i>
+          <span>Déplacer</span>
+        </div>
+        <div className="action">
+        <i className="bi bi-share"></i>
+          <span>Partager</span>
+        </div>
         <div className="action" onClick={() => removeDriveElement()}>
           <i className="bi bi-trash"></i>
           <span>Supprimer</span>

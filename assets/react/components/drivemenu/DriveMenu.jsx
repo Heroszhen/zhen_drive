@@ -9,7 +9,7 @@ import { getMaxFileSize } from '../../services/data';
 const DriveMenu = (props) => {
   const dirInputRef = useRef(null);
   const filesInputRef = useRef(null);
-  const { uploadFolderOrFiles, getBucketInfo } = useDriveStore();
+  const { uploadFolderOrFiles, getBucketInfo, getFolder, setDriveIndex } = useDriveStore();
   const { user } = useUserStore();
   const [driveInfo, setDriveInfo] = useState(null);
   const [bucketInfo, setBucketInfo] = useState(null);
@@ -38,6 +38,11 @@ const DriveMenu = (props) => {
     if (errorMsg !== '') setModalConfig({ type: 'danger', message: errorMsg });
     else await uploadFolderOrFiles(files, isFolder);
   };
+
+  const refresh = async () => {
+    setDriveIndex(null);
+    await getFolder();
+  }
 
   return (
     <>
@@ -96,7 +101,7 @@ const DriveMenu = (props) => {
                   </div>
                 </li>
                 <li className="list-group-item">
-                  <span>
+                  <span onClick={()=>refresh()}>
                     <i className="bi bi-app"></i>
                     Actualiser
                   </span>
@@ -109,7 +114,7 @@ const DriveMenu = (props) => {
                 </li>
                 <li className="list-group-item">
                   <span>
-                    <i className="bi bi-app"></i>
+                    <i className="bi bi-cloud-arrow-down"></i>
                     Installer
                   </span>
                 </li>
