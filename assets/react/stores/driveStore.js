@@ -17,10 +17,10 @@ const useDriveStore = create((set, get) => ({
             });
           
             if (response.ok) {
-                response = await response.json();
+                const elements = (await response.json())['hydra:member'];
                 const folders = [];
                 const files = [];
-                response.forEach((elm) => {
+                elements.forEach((elm) => {
                     if (elm.fullName.endsWith('/'))folders.push(elm);
                     else files.push(elm);
                 });
