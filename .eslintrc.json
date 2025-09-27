@@ -45,7 +45,7 @@
     "no-multiple-empty-lines": "error",
     "no-useless-return": "warn",
     "react/prop-types": "off",
-    "no-empty": "off",
+    "no-empty": ["error", { "allowEmptyCatch": true }],
     "prettier/prettier": "error"
   },
   "ignorePatterns": [
