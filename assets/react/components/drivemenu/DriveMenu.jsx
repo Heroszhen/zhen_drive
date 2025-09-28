@@ -42,7 +42,7 @@ const DriveMenu = (props) => {
   const refresh = async () => {
     setDriveIndex(null);
     await getFolder();
-  }
+  };
 
   return (
     <>
@@ -101,7 +101,7 @@ const DriveMenu = (props) => {
                   </div>
                 </li>
                 <li className="list-group-item">
-                  <span onClick={()=>refresh()}>
+                  <span onClick={() => refresh()}>
                     <i className="bi bi-app"></i>
                     Actualiser
                   </span>

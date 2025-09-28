@@ -44,7 +44,8 @@ when@test:
 
 when@prod:
     monolog:
-        channels: []
+        channels:
+            - deprecation
 
         handlers:
             main:
@@ -52,3 +53,10 @@ when@prod:
                 path: '%kernel.logs_dir%/%kernel.environment%.log'
                 level: error
                 max_files: 5
+
+            deprecation:
+                type: stream
+                path: '%kernel.logs_dir%/deprecations.log'
+                level: notice
+                max_files: 1
+                channels: [ "deprecation" ]  # Gérer les messages de dépréciation séparément

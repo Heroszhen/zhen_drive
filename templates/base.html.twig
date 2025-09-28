@@ -5,8 +5,8 @@
         <title>{% block title %}Zhen Drive{% endblock %}</title>
         <link rel="icon" href="/favicon.png">
         {% block stylesheets %}
-            {{ encore_entry_link_tags('style/main') }}
             {{ encore_entry_link_tags('main') }}
+            {{ encore_entry_link_tags('style/main') }}
         {% endblock %}
     </head>
     <body>

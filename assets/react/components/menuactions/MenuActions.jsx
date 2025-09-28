@@ -34,7 +34,7 @@ const MenuActions = (props) => {
           <span>Déplacer</span>
         </div>
         <div className="action">
-        <i className="bi bi-share"></i>
+          <i className="bi bi-share"></i>
           <span>Partager</span>
         </div>
         <div className="action" onClick={() => removeDriveElement()}>

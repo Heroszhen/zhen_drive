@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+<section id="contact" class="p-1">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <h2 class="mb-4 text-center">Contactez-nous</h2>
+                {{ form_start(form, { 'attr': {'novalidate': 'novalidate', 'class': ''} }) }}
+                    <div class="mb-3">
+                        {{ form_label(form.civility, 'Civilité*') }}
+                        <div class="d-flex">
+                            {% for civility in form.civility %}
+                                <div class="me-3">
+                                    {{ form_widget(civility, {'attr': {'class': 'form-check-input'}}) }}
+                                    {{ form_label(civility, civility.vars.label, {'label_attr': {'class': 'form-check-label'}}) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="text-danger">
+                            {% for error in form.civility.vars.errors %}
+                                <div>{{ error.message }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.name, 'Nom*') }}
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                        <div class="text-danger">
+                            {% for error in form.name.vars.errors %}
+                                <div>{{ error.message }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.target, 'Objectif*') }}
+                        {{ form_widget(form.target, {'attr': {'class': 'form-control'}}) }}
+                        <div class="text-danger">
+                            {% for error in form.target.vars.errors %}
+                                <div>{{ error.message }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.message, 'Message*') }}
+                        {{ form_widget(form.message, {'attr': {'class': 'form-control'}}) }}
+                        <div class="text-danger">
+                            {% for error in form.message.vars.errors %}
+                                <div>{{ error.message }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    {% include 'common/_messages.html.twig' %}
+                    
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    
+</section>
+{% endblock %}

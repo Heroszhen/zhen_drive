@@ -82,7 +82,6 @@ Encore
     //.autoProvidejQuery()
 ;
 
-
 const unoCSSPlugin = () =>
     import('@unocss/webpack').then(({ default: UnoCSS }) =>
         UnoCSS({

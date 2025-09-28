@@ -18,6 +18,8 @@ function App() {
   const [modalConfig, setModalConfig] = useState({ type: null, message: null });
 
   useEffect(() => {
+    if (reactLocation.pathname.includes('/zdrive')) return;
+
     window.fetch = async (...args) => {
       setLoader(true);
 
