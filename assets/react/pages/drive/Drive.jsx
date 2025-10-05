@@ -7,6 +7,7 @@ import DriveList from '../../components/DriveList/DriveList';
 import DriveMenu from '../../components/DriveMenu/DriveMenu';
 import DraggableField from '../../components/DraggableField/DraggableField';
 import ReaderModal from '../../components/ReaderModal/ReaderModal';
+import SSEEvent from '../../components/SSEEvent/SSEEvent';
 
 const Drive = () => {
   const [layout, setlayout] = useState(1);
@@ -24,6 +25,7 @@ const Drive = () => {
   const [keywords, setKewords] = useState('');
   const [showReaderModal, setShowReaderModal] = useState(false);
   const [driveFile, setDriveFile] = useState(null);
+  const [sseUrl, setSseUrl] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -82,7 +84,7 @@ const Drive = () => {
         <section className="container-fluid">
           <div className="row">
             <div className="col-12 d-lg-block col-lg-3">
-              <DriveMenu toggleForm={toggleForm} />
+              <DriveMenu toggleForm={toggleForm} setSseUrl={setSseUrl} />
             </div>
             <div className="col-12 col-lg-9">
               <div className="d-flex align-items-center justify-content-between mb-2">
@@ -204,6 +206,8 @@ const Drive = () => {
       </div>
 
       {showReaderModal && <ReaderModal setShowReaderModal={setShowReaderModal} driveFile={driveFile} />}
+
+      {user?.roles.includes('ROLE_ADMIN') && <SSEEvent url={sseUrl} />}
     </>
   );
 };

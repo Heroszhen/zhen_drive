@@ -21,9 +21,9 @@ function App() {
     if (reactLocation.pathname.includes('/zdrive')) return;
 
     window.fetch = async (...args) => {
-      setLoader(true);
-
       const [url, options = {}] = args;
+      if (!url.includes('api/sse')) setLoader(true);
+
       if (options.method.toLowerCase() === 'patch') {
         options.headers['Content-Type'] = 'application/merge-patch+json';
       }

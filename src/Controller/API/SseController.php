@@ -5,25 +5,36 @@ namespace App\Controller\API;
 use App\Entity\MessageEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Hhxsv5\SSE\SSE;
 use Hhxsv5\SSE\Event;
 use Hhxsv5\SSE\StopSSEException;
+use Psr\Log\LoggerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use App\Entity\User;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/api/sse')]
 final class SseController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private LoggerInterface $logger,
+        private Security $security,
     )
     {
     }
 
-    #[Route('/event', name: 'app_sse_event')]
-    public function index(): Response
+    #[Route('/event', name: 'app_sse_event', methods: ['GET'])]
+    public function index(): StreamedResponse
     {
+        $user = $this->security->getUser();
+        if (!$user instanceof UserInterface) {
+            throw new AccessDeniedException();
+        }
+
         $em = $this->entityManager;
         
         $response = new StreamedResponse();

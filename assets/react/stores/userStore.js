@@ -10,7 +10,7 @@ export const getAuth = async (data) => {
   const headers = getRequestHeaders();
   delete headers.Authorization;
   try {
-    let response = await fetch(`${process.env.DOMAIN}/api/auth`, {
+    let response = await fetch(`/api/auth`, {
       method: 'POST',
       headers,
       body: JSON.stringify(data),
@@ -26,7 +26,7 @@ export const getAuth = async (data) => {
 
 export const getUser = async () => {
   try {
-    let response = await fetch(`${process.env.DOMAIN}/api/users/profile`, {
+    let response = await fetch(`/api/users/profile`, {
       method: 'GET',
       headers: getRequestHeaders(),
     });

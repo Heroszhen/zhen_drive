@@ -106,6 +106,23 @@ const DriveMenu = (props) => {
                     Actualiser
                   </span>
                 </li>
+                {user?.roles.includes('ROLE_ADMIN') && (
+                  <li className="list-group-item d-flex align-items-center">
+                    <i className="bi bi-telephone-inbound"></i>
+                    <div className="form-check form-switch">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="switchContact"
+                        onChange={(e) => props.setSseUrl(e.target.checked ? '/api/sse/event' : null)}
+                      />
+                      <label className="form-check-label" htmlFor="switchContact">
+                        Contact
+                      </label>
+                    </div>
+                  </li>
+                )}
                 <li className="list-group-item">
                   <span onClick={() => logout()}>
                     <i className="bi bi-door-closed"></i>

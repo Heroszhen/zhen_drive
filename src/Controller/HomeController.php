@@ -50,6 +50,9 @@ final class HomeController extends AbstractController
                 $this->entityManager->flush();
 
                 $this->addFlash('success', 'Message envoyé !');
+
+                $contact = new Contact();
+                $form = $this->createForm(ContactType::class, $contact);
             } else {
                 $this->addFlash('danger', 'Il y a des erreurs !');
             }
