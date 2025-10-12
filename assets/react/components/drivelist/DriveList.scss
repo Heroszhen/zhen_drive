@@ -1,0 +1,12 @@
+#drive-list {
+    table {
+        tbody {
+            tr.drag-enter {
+                td, th {
+                    background-color: #c2e7ff;
+                    color: white !important;
+                }
+            }
+        }
+    }
+}

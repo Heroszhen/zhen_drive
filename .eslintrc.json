@@ -46,7 +46,8 @@
     "no-useless-return": "warn",
     "react/prop-types": "off",
     "no-empty": ["error", { "allowEmptyCatch": true }],
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "no-unused-vars": "error"
   },
   "ignorePatterns": [
     "assets/controllers/*",

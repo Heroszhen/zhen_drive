@@ -4,13 +4,15 @@ import { MessageModalContext } from '../../App';
 import { MESSAGE_TYPE_ERROR } from '../MessageModal/MessageModal';
 import useDriveStore from '../../stores/driveStore';
 
-const DraggableField = ({ children }) => {
+const DraggableField = ({ children, activatedDraggableField, setActivatedDraggableField }) => {
   const grayField = useRef(null);
   const { setModalConfig } = useContext(MessageModalContext);
   const { uploadFolderOrFiles } = useDriveStore();
 
   const handleDragEnter = (e) => {
     e.preventDefault();
+    if (!activatedDraggableField) return;
+
     grayField.current.classList.remove('d-none');
   };
 
@@ -20,6 +22,8 @@ const DraggableField = ({ children }) => {
 
   const handleDrop = async (e) => {
     e.preventDefault();
+    if (!activatedDraggableField) return;
+
     grayField.current.classList.add('d-none');
 
     let files = [];
@@ -47,6 +51,8 @@ const DraggableField = ({ children }) => {
 
   const handleDragLeave = (e) => {
     e.preventDefault();
+    if (!activatedDraggableField) return;
+
     if (e.target == grayField.current) grayField.current.classList.add('d-none');
   };
 

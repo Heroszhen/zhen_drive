@@ -26,6 +26,7 @@ const Drive = () => {
   const [showReaderModal, setShowReaderModal] = useState(false);
   const [driveFile, setDriveFile] = useState(null);
   const [sseUrl, setSseUrl] = useState(null);
+  const [activatedDraggableField, setActivatedDraggableField] = useState(true);
 
   useEffect(() => {
     if (user) {
@@ -140,7 +141,18 @@ const Drive = () => {
                 </div>
               </div>
 
-              <DraggableField>{layout === 1 && <DriveList keywords={keywords} viewFile={viewFile} />}</DraggableField>
+              <DraggableField
+                activatedDraggableField={activatedDraggableField}
+                setActivatedDraggableField={setActivatedDraggableField}>
+                {layout === 1 && (
+                  <DriveList
+                    keywords={keywords}
+                    viewFile={viewFile}
+                    activatedDraggableField={activatedDraggableField}
+                    setActivatedDraggableField={setActivatedDraggableField}
+                  />
+                )}
+              </DraggableField>
             </div>
           </div>
         </section>
