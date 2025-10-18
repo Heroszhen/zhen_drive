@@ -83,8 +83,8 @@ const DriveMenu = (props) => {
                     <input
                       type="file"
                       id="folderInput"
-                      webkitdirectory
-                      directory
+                      webkitdirectory="true"
+                      directory="true"
                       multiple
                       ref={dirInputRef}
                       onChange={(e) => uploadFiles(e, true)}
