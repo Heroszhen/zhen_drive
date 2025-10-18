@@ -27,7 +27,7 @@ const MessageModal = (props) => {
         tabIndex="-1"
         aria-labelledby="messageModalLabel"
         aria-hidden="true"
-        onClick={() => setModalConfig({ type: null, message: null })}>
+        onClick={() => props.setModalConfig({ type: null, message: null })}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">

@@ -1,10 +1,10 @@
 import React, { useRef, useContext } from 'react';
-import { getMaxFileSize } from '../../services/data';
-import { MessageModalContext } from '../../App';
-import { MESSAGE_TYPE_ERROR } from '../MessageModal/MessageModal';
-import useDriveStore from '../../stores/driveStore';
+import { getMaxFileSize } from '../../services/data.js';
+import { MessageModalContext } from '../../App.jsx';
+import { MESSAGE_TYPE_ERROR } from '../MessageModal/MessageModal.jsx';
+import useDriveStore from '../../stores/driveStore.js';
 
-const DraggableField = ({ children, activatedDraggableField, setActivatedDraggableField }) => {
+const DraggableField = ({ children, activatedDraggableField }) => {
   const grayField = useRef(null);
   const { setModalConfig } = useContext(MessageModalContext);
   const { uploadFolderOrFiles } = useDriveStore();
@@ -28,14 +28,13 @@ const DraggableField = ({ children, activatedDraggableField, setActivatedDraggab
 
     let files = [];
     for (let i = 0; i < e.dataTransfer.items.length; i++) {
-      //FileSystemEntry
-      let entry = e.dataTransfer.items[i].webkitGetAsEntry();
+      const entry = e.dataTransfer.items[i].webkitGetAsEntry();
       if (entry.isFile) files.push(e.dataTransfer.files.item(i));
       else await readDirectory(entry, files);
     }
 
     const errors = [];
-    files = files.filter((file, index) => {
+    files = files.filter((file) => {
       if ((!file) instanceof File || file.size > getMaxFileSize()) errors.push(file);
       return file instanceof File && file.size <= getMaxFileSize();
     });
@@ -57,11 +56,11 @@ const DraggableField = ({ children, activatedDraggableField, setActivatedDraggab
   };
 
   const readDirectory = async (directory, files) => {
-    return new Promise((resolve, reject) => {
-      let reader = directory.createReader();
+    return new Promise((resolve) => {
+      const reader = directory.createReader();
       reader.readEntries(
         async (entries) => {
-          for (let entry of entries) {
+          for (const entry of entries) {
             if (entry.isFile) {
               const file = await readFileEntry(entry);
               files.push(file);
@@ -80,7 +79,7 @@ const DraggableField = ({ children, activatedDraggableField, setActivatedDraggab
   };
 
   const readFileEntry = async (entry) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       entry.file((file) => {
         file['fullPath'] = entry.fullPath.startsWith('/') ? entry.fullPath.slice(1) : entry.fullPath;
         resolve(file);

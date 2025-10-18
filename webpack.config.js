@@ -1,7 +1,7 @@
 const Encore = require('@symfony/webpack-encore');
 const dotenv = require('dotenv');
-const CopyPlugin = require("copy-webpack-plugin");
-const WorkboxPlugin = require('workbox-webpack-plugin');
+//const CopyPlugin = require("copy-webpack-plugin");
+//const WorkboxPlugin = require('workbox-webpack-plugin');
 
 dotenv.config({ path: '.env.local' });
 

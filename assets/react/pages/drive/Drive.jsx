@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useDriveStore from '../../stores/driveStore';
+import useDriveStore from '../../stores/driveStore.js';
 import useUserStore from '../../stores/userStore.js';
 import { useForm } from 'react-hook-form';
 
-import DriveList from '../../components/DriveList/DriveList';
-import DriveMenu from '../../components/DriveMenu/DriveMenu';
-import DraggableField from '../../components/DraggableField/DraggableField';
-import ReaderModal from '../../components/ReaderModal/ReaderModal';
-import SSEEvent from '../../components/SSEEvent/SSEEvent';
+import DriveList from '../../components/DriveList/DriveList.jsx';
+import DriveMenu from '../../components/DriveMenu/DriveMenu.jsx';
+import DraggableField from '../../components/DraggableField/DraggableField.jsx';
+import ReaderModal from '../../components/ReaderModal/ReaderModal.jsx';
+import SSEEvent from '../../components/SSEEvent/SSEEvent.jsx';
 
 const Drive = () => {
   const [layout, setlayout] = useState(1);

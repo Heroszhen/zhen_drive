@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './MenuActions.scss';
-import useDriveStore from '../../stores/driveStore';
+import useDriveStore from '../../stores/driveStore.js';
 
 const MenuActions = (props) => {
   const { setDriveIndex, driveIndex, deleteDriveElement } = useDriveStore();

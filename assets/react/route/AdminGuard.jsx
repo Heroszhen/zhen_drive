@@ -1,5 +1,5 @@
 import { Outlet, Navigate } from 'react-router-dom';
-import useUserStore from '../stores/userStore';
+import useUserStore from '../stores/userStore.js';
 
 const AdminGuard = () => {
   const { user } = useUserStore();

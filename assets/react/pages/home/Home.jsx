@@ -4,7 +4,6 @@ import './Home.scss';
 import useUserStore, { getAuth } from '../../stores/userStore.js';
 import { useNavigate } from 'react-router-dom';
 
-//login
 const Home = () => {
   const {
     register,

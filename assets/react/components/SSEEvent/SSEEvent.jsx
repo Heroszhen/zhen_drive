@@ -1,7 +1,7 @@
 import { useEffect, useState, memo } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
-import { wait } from '../../services/util';
-import { getRequestHeaders } from '../../services/data';
+import { wait } from '../../services/util.js';
+import { getRequestHeaders } from '../../services/data.js';
 import { ToastContainer, toast } from 'react-toastify';
 
 const SSEEvent = ({ url, payload, traitResponse }) => {
@@ -39,8 +39,8 @@ const SSEEvent = ({ url, payload, traitResponse }) => {
           });
         }
       },
-      onerror(err) {
-        console.log(err);
+      onerror(error) {
+        console.log(error, payload, traitResponse);
       },
     });
   };

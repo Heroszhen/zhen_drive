@@ -25,4 +25,4 @@ yarn-error.log
 ###< lexik/jwt-authentication-bundle ###
 
 /db/*
-!/bd/.gitkeep
+!/db/.gitkeep

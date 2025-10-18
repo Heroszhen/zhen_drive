@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { IMAGE_EXTENSIONS } from '../../services/data';
+import { IMAGE_EXTENSIONS } from '../../services/data.js';
 
 const ReaderModal = (props) => {
   const modalBtn = useRef(null);
@@ -49,10 +49,10 @@ const ReaderModal = (props) => {
         {props.driveFile && (
           <div className="w-[800px] mx-auto mt-[38px] mw-100 h-[calc(100%-38px)] p-1 overflow-y-auto">
             {props.driveFile.extension === 'pdf' && (
-              <iframe src={props.driveFile.url} className="w-100 h-[99%]"></iframe>
+              <iframe src={props.driveFile.url} className="w-100 h-[99%]" title="pdf"></iframe>
             )}
             {IMAGE_EXTENSIONS.includes(props.driveFile.extension) && (
-              <img src={props.driveFile.url} className="w-100 h-auto" />
+              <img src={props.driveFile.url} className="w-100 h-auto" alt="" />
             )}
           </div>
         )}

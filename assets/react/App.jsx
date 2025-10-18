@@ -1,10 +1,10 @@
 import React, { useState, useEffect, createContext } from 'react';
-import RoutesWrapper from './route/RoutesWrapper';
+import RoutesWrapper from './route/RoutesWrapper.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Loader from './components/Loader/Loader';
+import Loader from './components/Loader/Loader.jsx';
 import { ToastContainer, toast } from 'react-toastify';
 import useUserStore, { getUser } from './stores/userStore.js';
-import MessageModal from './components/MessageModal/MessageModal';
+import MessageModal from './components/MessageModal/MessageModal.jsx';
 
 export const MessageModalContext = createContext();
 
@@ -37,7 +37,7 @@ function App() {
         const jsonResponse = await clonedResponse.json();
         if (jsonResponse.message) msg += jsonResponse.message + ' ';
         if (jsonResponse.violations) {
-          for (let entry of jsonResponse.violations) {
+          for (const entry of jsonResponse.violations) {
             msg += `${entry['propertyPath']} : ${entry['message']} `;
           }
         }

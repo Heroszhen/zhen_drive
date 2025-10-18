@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import useDriveStore from '../../stores/driveStore';
+import React, { useState } from 'react';
+import useDriveStore from '../../stores/driveStore.js';
 import moment from 'moment';
-import { getExtensionIcon, getDropDownMenuPosition } from '../../services/data';
+import { getExtensionIcon, getDropDownMenuPosition } from '../../services/data.js';
 
-import MenuActions from '../Menuactions/MenuActions';
+import MenuActions from '../MenuActions/MenuActions.jsx';
 import './DriveList.scss';
 
 const DriveList = (props) => {
@@ -23,7 +23,7 @@ const DriveList = (props) => {
     setMovedElm(e.target);
   };
 
-  const handleDragEnd = (e) => {
+  const handleDragEnd = () => {
     props.setActivatedDraggableField(true);
     setMovedElm(null);
     targetElm?.classList.remove('drag-enter');
@@ -81,7 +81,7 @@ const DriveList = (props) => {
                 <tr
                   key={index}
                   className={`drive-elm${driveIndex === index ? ' active' : ''}${elm.fullName.endsWith('/') ? ' drive-folder' : ''}`}
-                  onClick={(e) => setDriveIndex(index)}
+                  onClick={() => setDriveIndex(index)}
                   onDoubleClick={() => openDriveElement(index)}
                   data-key={index}
                   draggable="true"

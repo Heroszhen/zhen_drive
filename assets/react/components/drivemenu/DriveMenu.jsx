@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import './DriveMenu.scss';
-import { logout } from '../../services/util';
-import useDriveStore from '../../stores/driveStore';
-import useUserStore from '../../stores/userStore';
-import { MessageModalContext } from '../../App';
-import { getMaxFileSize } from '../../services/data';
+import { logout } from '../../services/util.js';
+import useDriveStore from '../../stores/driveStore.js';
+import useUserStore from '../../stores/userStore.js';
+import { MessageModalContext } from '../../App.jsx';
+import { getMaxFileSize } from '../../services/data.js';
 
 const DriveMenu = (props) => {
   const dirInputRef = useRef(null);
@@ -56,7 +56,7 @@ const DriveMenu = (props) => {
               data-bs-target="#collapseOne"
               aria-expanded="true"
               aria-controls="collapseOne">
-              <img src="/static/icons8-google-drive-512.png" className="w-[20px]" />
+              <img src="/static/icons8-google-drive-512.png" className="w-[20px]" alt="" />
             </button>
           </h2>
           <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordion-drive-menu">
@@ -83,8 +83,8 @@ const DriveMenu = (props) => {
                     <input
                       type="file"
                       id="folderInput"
-                      webkitdirectory="true"
-                      directory="true"
+                      webkitdirectory
+                      directory
                       multiple
                       ref={dirInputRef}
                       onChange={(e) => uploadFiles(e, true)}
