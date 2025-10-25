@@ -108,7 +108,7 @@ const DriveMenu = (props) => {
                 </li>
                 {user?.roles.includes('ROLE_ADMIN') && (
                   <li className="list-group-item d-flex align-items-center">
-                    <i class="bi bi-bell"></i>
+                    <i className="bi bi-bell"></i>
                     <div className="form-check form-switch">
                       <input
                         className="form-check-input"
