@@ -90,7 +90,6 @@ const DraggableField = ({ children, activatedDraggableField }) => {
   return (
     <section
       className="draggable-zone relative"
-      draggable="true"
       onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
