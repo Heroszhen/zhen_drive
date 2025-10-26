@@ -1,9 +1,11 @@
 import React from 'react';
 import './MenuActions.scss';
 import useDriveStore from '../../stores/driveStore.js';
+import { DriveContext } from '../../pages/Drive/Drive';
 
-const MenuActions = (props) => {
-  const { setDriveIndex, driveIndex, deleteDriveElement, drive } = useDriveStore();
+const MenuActions = () => {
+  const { setDriveIndex, driveIndex, deleteDriveElement } = useDriveStore();
+  const { toggleForm, openDriveElement } = useContext(DriveContext);
 
   const removeDriveElement = async () => {
     if (!window.confirm('Veux-tu vraiment supprimer cet élément ?')) {
@@ -17,7 +19,7 @@ const MenuActions = (props) => {
   return (
     <>
       <div className="menu-actions">
-        <div className="action" onClick={() => props.openDriveElement(driveIndex)}>
+        <div className="action" onClick={() => openDriveElement(driveIndex)}>
           <i className="bi bi-book"></i>
           <span>Ouvrir</span>
         </div>
@@ -25,7 +27,7 @@ const MenuActions = (props) => {
           <i className="bi bi-download"></i>
           <span>Télécharger</span>
         </div>
-        <div className="action" onClick={() => {props.toggleForm(1); document.body.click();}}>
+        <div className="action" onClick={() => {toggleForm(1); document.body.click();}}>
           <i className="bi bi-pencil"></i>
           <span>Renommer</span>
         </div>

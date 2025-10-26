@@ -11,11 +11,6 @@ const DriveList = (props) => {
   const [movedElm, setMovedElm] = useState(null);
   const [targetElm, setTargetElm] = useState(null);
 
-  const openDriveElement = (index) => {
-    if (drive[index].fullName.endsWith('/')) addPath(index);
-    else props.viewFile(index);
-  };
-
   const handleDragStart = (e) => {
     props.setActivatedDraggableField(false);
     e.stopPropagation();
@@ -82,7 +77,7 @@ const DriveList = (props) => {
                   key={index}
                   className={`drive-elm${driveIndex === index ? ' active' : ''}${elm.fullName.endsWith('/') ? ' drive-folder' : ''}`}
                   onClick={() => setDriveIndex(index)}
-                  onDoubleClick={() => openDriveElement(index)}
+                  onDoubleClick={() => props.openDriveElement(index)}
                   data-key={index}
                   draggable="true"
                   onDragStart={handleDragStart}
@@ -107,7 +102,7 @@ const DriveList = (props) => {
                         style={getDropDownMenuPosition()}
                         onClick={(e) => e.stopPropagation()}>
                         {driveIndex === index && 
-                          <MenuActions openDriveElement={openDriveElement} toggleForm={props.toggleForm}/>
+                          <MenuActions />
                         }
                       </div>
                     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, createContext } from 'react';
 import useDriveStore from '../../stores/driveStore.js';
 import useUserStore from '../../stores/userStore.js';
 import { useForm } from 'react-hook-form';
@@ -9,10 +9,12 @@ import DraggableField from '../../components/DraggableField/DraggableField.jsx';
 import ReaderModal from '../../components/ReaderModal/ReaderModal.jsx';
 import SSEEvent from '../../components/SSEEvent/SSEEvent.jsx';
 
+export const DriveContext = createContext();
+
 const Drive = () => {
   const [layout, setlayout] = useState(1);
   const { user } = useUserStore();
-  const { getFolder, getFolderPath, setRootDir, paths, rootDir, setPaths, addFolder, getFileUrl, drive, driveIndex, changeDriveElementName } = useDriveStore();
+  const { getFolder, getFolderPath, setRootDir, paths, rootDir, setPaths, addFolder, getFileUrl, drive, driveIndex, changeDriveElementName, addPath } = useDriveStore();
   const modalBtn = useRef(null);
   const modalCloseBtn = useRef(null);
   const {
@@ -75,6 +77,11 @@ const Drive = () => {
     toggleForm();
   };
 
+  const openDriveElement = (index) => {
+    if (drive[index].fullName.endsWith('/')) addPath(index);
+    else viewFile(index);
+  };
+
   const viewFile = async (index) => {
     setDriveFile(null);
     setShowReaderModal(true);
@@ -94,83 +101,85 @@ const Drive = () => {
 
   return (
     <>
-      <section id="drive" className="p-2">
-        <section className="container-fluid">
-          <div className="row">
-            <div className="col-12 d-lg-block col-lg-3">
-              <DriveMenu toggleForm={toggleForm} setSseUrl={setSseUrl} />
-            </div>
-            <div className="col-12 col-lg-9">
-              <div className="d-flex align-items-center justify-content-between mb-2">
-                <div className="d-flex align-items-center justify-content-start">
-                  {paths.length > 0 && (
-                    <select
-                      value={paths.length - 1}
-                      className="form-select form-select-sm"
-                      onChange={(e) => changePath(e.target.value)}>
-                      <option value="-1">
-                        {user.roles.includes('ROLE_ADMIN')
-                          ? rootDir
-                          : rootDir.replace(new RegExp(`^${process.env.APP_ENV}/`), '')}
-                      </option>
-                      {paths.map((path, index) => (
-                        <option key={index} value={index}>
-                          {path}
+      <DriveContext.Provider value={{ toggleForm, openDriveElement }}>
+        <section id="drive" className="p-2">
+          <section className="container-fluid">
+            <div className="row">
+              <div className="col-12 d-lg-block col-lg-3">
+                <DriveMenu toggleForm={toggleForm} setSseUrl={setSseUrl} />
+              </div>
+              <div className="col-12 col-lg-9">
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <div className="d-flex align-items-center justify-content-start">
+                    {paths.length > 0 && (
+                      <select
+                        value={paths.length - 1}
+                        className="form-select form-select-sm"
+                        onChange={(e) => changePath(e.target.value)}>
+                        <option value="-1">
+                          {user.roles.includes('ROLE_ADMIN')
+                            ? rootDir
+                            : rootDir.replace(new RegExp(`^${process.env.APP_ENV}/`), '')}
                         </option>
-                      ))}
-                    </select>
+                        {paths.map((path, index) => (
+                          <option key={index} value={index}>
+                            {path}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  </div>
+                  <div className="btn-group" role="group">
+                    <button
+                      type="button"
+                      className={`btn btn-sm + ${layout === 1 ? 'btn-primary' : 'btn-outline-primary'}`}
+                      onClick={() => setlayout(1)}>
+                      <i className="bi bi-list-check"></i>
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn btn-sm + ${layout === 2 ? 'btn-primary' : 'btn-outline-primary'}`}
+                      onClick={() => setlayout(2)}>
+                      <i className="bi bi-ui-checks-grid"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="pt-1 pb-1">
+                  <div className="input-group mb-3">
+                    <input
+                      type="search"
+                      className="form-control form-control-lg"
+                      placeholder="nom"
+                      aria-label="Recipient’s username"
+                      aria-describedby="button-addon2"
+                      defaultValue={keywords}
+                      onInput={(e) => setKewords(e.target.value)}
+                    />
+                    <button className="btn btn-outline-primary" type="button" id="button-addon2">
+                      Button
+                    </button>
+                  </div>
+                </div>
+
+                <DraggableField
+                  activatedDraggableField={activatedDraggableField}
+                  setActivatedDraggableField={setActivatedDraggableField}>
+                  {layout === 1 && (
+                    <DriveList
+                      keywords={keywords}
+                      viewFile={viewFile}
+                      activatedDraggableField={activatedDraggableField}
+                      setActivatedDraggableField={setActivatedDraggableField}
+                      openDriveElement={openDriveElement}
+                    />
                   )}
-                </div>
-                <div className="btn-group" role="group">
-                  <button
-                    type="button"
-                    className={`btn btn-sm + ${layout === 1 ? 'btn-primary' : 'btn-outline-primary'}`}
-                    onClick={() => setlayout(1)}>
-                    <i className="bi bi-list-check"></i>
-                  </button>
-                  <button
-                    type="button"
-                    className={`btn btn-sm + ${layout === 2 ? 'btn-primary' : 'btn-outline-primary'}`}
-                    onClick={() => setlayout(2)}>
-                    <i className="bi bi-ui-checks-grid"></i>
-                  </button>
-                </div>
+                </DraggableField>
               </div>
-
-              <div className="pt-1 pb-1">
-                <div className="input-group mb-3">
-                  <input
-                    type="search"
-                    className="form-control form-control-lg"
-                    placeholder="nom"
-                    aria-label="Recipient’s username"
-                    aria-describedby="button-addon2"
-                    defaultValue={keywords}
-                    onInput={(e) => setKewords(e.target.value)}
-                  />
-                  <button className="btn btn-outline-primary" type="button" id="button-addon2">
-                    Button
-                  </button>
-                </div>
-              </div>
-
-              <DraggableField
-                activatedDraggableField={activatedDraggableField}
-                setActivatedDraggableField={setActivatedDraggableField}>
-                {layout === 1 && (
-                  <DriveList
-                    keywords={keywords}
-                    viewFile={viewFile}
-                    activatedDraggableField={activatedDraggableField}
-                    setActivatedDraggableField={setActivatedDraggableField}
-                    toggleForm={toggleForm}
-                  />
-                )}
-              </DraggableField>
             </div>
-          </div>
+          </section>
         </section>
-      </section>
+      </DriveContext.Provider>
 
       <button
         type="button"
