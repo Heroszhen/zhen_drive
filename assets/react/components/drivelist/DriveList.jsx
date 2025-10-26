@@ -101,9 +101,7 @@ const DriveList = (props) => {
                         className="dropdown-menu p-1"
                         style={getDropDownMenuPosition()}
                         onClick={(e) => e.stopPropagation()}>
-                        {driveIndex === index && 
-                          <MenuActions />
-                        }
+                        {driveIndex === index && <MenuActions />}
                       </div>
                     </div>
                   </td>

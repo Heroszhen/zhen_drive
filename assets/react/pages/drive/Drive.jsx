@@ -14,7 +14,20 @@ export const DriveContext = createContext();
 const Drive = () => {
   const [layout, setlayout] = useState(1);
   const { user } = useUserStore();
-  const { getFolder, getFolderPath, setRootDir, paths, rootDir, setPaths, addFolder, getFileUrl, drive, driveIndex, changeDriveElementName, addPath } = useDriveStore();
+  const {
+    getFolder,
+    getFolderPath,
+    setRootDir,
+    paths,
+    rootDir,
+    setPaths,
+    addFolder,
+    getFileUrl,
+    drive,
+    driveIndex,
+    changeDriveElementName,
+    addPath,
+  } = useDriveStore();
   const modalBtn = useRef(null);
   const modalCloseBtn = useRef(null);
   const {
@@ -207,26 +220,26 @@ const Drive = () => {
                 data-bs-dismiss="modal"
                 aria-label="Close"
                 ref={modalCloseBtn}
-                onClick={() => setFormAction(null)}
-              ></button>
+                onClick={() => setFormAction(null)}></button>
             </div>
             <div className="modal-body">
               {formAction === 1 && (
                 <form className="" onSubmit={handleSubmit(changeElmName)}>
                   <div className="mb-3">
-                    <label className="form-label">
+                    <label htmlFor="old-name" className="form-label">
                       Nom
                     </label>
                     <input
                       type="text"
                       className="form-control form-control-sm"
+                      id="old-name"
                       disabled
                       value={drive[driveIndex]['name']}
                     />
                   </div>
                   <div className="mb-3">
                     <label htmlFor="name" className="form-label">
-                      Nouveau nom(avec l'extension)*
+                      Nouveau nom(avec l&apos;extension)*
                     </label>
                     <input
                       type="text"

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './MenuActions.scss';
 import useDriveStore from '../../stores/driveStore.js';
-import { DriveContext } from '../../pages/Drive/Drive';
+import { DriveContext } from '../../pages/Drive/Drive.jsx';
 
 const MenuActions = () => {
   const { setDriveIndex, driveIndex, deleteDriveElement } = useDriveStore();
@@ -27,7 +27,12 @@ const MenuActions = () => {
           <i className="bi bi-download"></i>
           <span>Télécharger</span>
         </div>
-        <div className="action" onClick={() => {toggleForm(1); document.body.click();}}>
+        <div
+          className="action"
+          onClick={() => {
+            toggleForm(1);
+            document.body.click();
+          }}>
           <i className="bi bi-pencil"></i>
           <span>Renommer</span>
         </div>
