@@ -12,7 +12,7 @@ import SSEEvent from '../../components/SSEEvent/SSEEvent.jsx';
 const Drive = () => {
   const [layout, setlayout] = useState(1);
   const { user } = useUserStore();
-  const { getFolder, getFolderPath, setRootDir, paths, rootDir, setPaths, addFolder, getFileUrl } = useDriveStore();
+  const { getFolder, getFolderPath, setRootDir, paths, rootDir, setPaths, addFolder, getFileUrl, drive, driveIndex, changeDriveElementName } = useDriveStore();
   const modalBtn = useRef(null);
   const modalCloseBtn = useRef(null);
   const {
@@ -56,6 +56,9 @@ const Drive = () => {
 
     switch (newFormAction) {
       case 1:
+        reset({
+          name: null,
+        });
         break;
       case 2:
         reset({
@@ -77,6 +80,16 @@ const Drive = () => {
     setShowReaderModal(true);
     const file = await getFileUrl(index);
     setDriveFile(file);
+  };
+
+  const changeElmName = async (data) => {
+    const oldPath = drive[driveIndex]['fullName'];
+    const tab = oldPath.split('/');
+    const index = oldPath.endsWith('/') ? tab.length - 2 : tab.length - 1;
+    tab[index] = data.name;
+
+    await changeDriveElementName(driveIndex, oldPath, tab.join('/'));
+    toggleForm();
   };
 
   return (
@@ -150,6 +163,7 @@ const Drive = () => {
                     viewFile={viewFile}
                     activatedDraggableField={activatedDraggableField}
                     setActivatedDraggableField={setActivatedDraggableField}
+                    toggleForm={toggleForm}
                   />
                 )}
               </DraggableField>
@@ -175,6 +189,7 @@ const Drive = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h3 className="modal-title fs-5" id="driveModalLabel">
+                {formAction === 1 && 'Changer le nom'}
                 {formAction === 2 && 'Créer un dossier'}
               </h3>
               <button
@@ -182,9 +197,49 @@ const Drive = () => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                ref={modalCloseBtn}></button>
+                ref={modalCloseBtn}
+                onClick={() => setFormAction(null)}
+              ></button>
             </div>
             <div className="modal-body">
+              {formAction === 1 && (
+                <form className="" onSubmit={handleSubmit(changeElmName)}>
+                  <div className="mb-3">
+                    <label className="form-label">
+                      Nom
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      disabled
+                      value={drive[driveIndex]['name']}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="name" className="form-label">
+                      Nouveau nom(avec l'extension)*
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      className="form-control form-control-sm"
+                      autoComplete="off"
+                      {...register('name', {
+                        required: { value: true, message: 'Le champ est obligatoire' },
+                      })}
+                    />
+                    {errors.name?.type === 'required' && (
+                      <div className="alert alert-danger mt-1">{errors.name?.message}</div>
+                    )}
+                  </div>
+                  <div className="text-center">
+                    <button className="btn btn-primary btn-sm" type="submit">
+                      Envoyer
+                    </button>
+                  </div>
+                </form>
+              )}
               {formAction === 2 && (
                 <form className="" onSubmit={handleSubmit(addFolderSubmit)}>
                   <div className="mb-3">
@@ -192,7 +247,7 @@ const Drive = () => {
                       Nom du dossier*
                     </label>
                     <input
-                      type="name"
+                      type="text"
                       id="name"
                       name="name"
                       className="form-control form-control-sm"

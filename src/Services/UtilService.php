@@ -12,9 +12,9 @@ class UtilService
     )
     {}
 
-    public function logHttpErrorMessage(\Exception $e): void
+    public function logHttpErrorMessage(\Exception $e, string $title = 's3'): void
     {
-        $this->logger->error("getFolder: {$e->getMessage()}");
+        $this->logger->error("{$title}: {$e->getMessage()}");
         throw new BadRequestHttpException($e->getMessage());
     }
 }

@@ -1,3 +1,4 @@
+import { getMessages } from '@microsoft/fetch-event-source/lib/cjs/parse.js';
 import { create } from 'zustand';
 import { getRequestHeaders } from '../services/data.js';
 
@@ -160,5 +161,33 @@ const useDriveStore = create((set, get) => ({
       }
     } catch {}
   },
+  changeDriveElementName: async (index, oldName, newName, toRemove = false) => {
+    const headers = getRequestHeaders();
+
+    const payload = {
+      'oldPath': oldName,
+      'newPath': newName,
+      'isFile': !oldName.endsWith('/')
+    };
+    try {
+      const response = await fetch(`/api/s3/rename-folder-file`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (toRemove) {
+          set(() => ({ drive: get().drive.filter((item, itemIndex) => itemIndex !== index) }));
+        } else {
+          const oldDrive = get().drive;
+          oldDrive[index] = result;
+          set(() => ({ drive: oldDrive }));
+          get().sortDrive();
+        }
+      }
+    } catch {}
+  }
 }));
 export default useDriveStore;

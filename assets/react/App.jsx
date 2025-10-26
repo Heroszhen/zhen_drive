@@ -47,7 +47,10 @@ function App() {
           theme: 'light',
         });
 
-        if (clonedResponse.status === 401 && reactLocation.pathname !== '/') navigate('/');
+        if (clonedResponse.status === 401 && reactLocation.pathname !== '/') {
+          localStorage.removeItem('token');
+          navigate('/');
+        }
       } else if (options.method.toLowerCase() !== 'get') {
         toast.success('Envoyé', {
           autoClose: 300,

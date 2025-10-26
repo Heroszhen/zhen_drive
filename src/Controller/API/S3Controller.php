@@ -103,4 +103,14 @@ final class S3Controller extends AbstractController
     
         return $this->json($result);
     }
+
+    #[Route('/rename-folder-file', name: 'app_s3_rename_folder_file', methods:['POST'])]
+    public function renameFolederFile(Request $request): Response
+    {
+        $content = json_decode($request->getContent(), true);
+
+        $result = $this->s3Service->rename($content['oldPath'], $content['newPath'], $content['isFile']);
+
+        return $this->json($result);
+    }
 }

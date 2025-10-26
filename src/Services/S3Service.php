@@ -111,4 +111,21 @@ class S3Service
             $this->utilService->logHttpErrorMessage($e);
         }
     }
+
+    public function rename(string $oldPath, string $newPath, bool $isFile = true): array
+    {
+        $url = $_ENV['ZHEN_API_ENDPOINT'].'/s3files/rename-';
+        $url .= $isFile ? 'file' : 'folder';
+
+        try {
+            $response = $this->s3Client->request('POST', $url, [
+                'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $oldPath, 'newName' => $newPath]
+            ]);
+
+            return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+
+        } catch (\Exception $e) {
+            $this->utilService->logHttpErrorMessage($e, 's3 rename');
+        }
+    }
 }
