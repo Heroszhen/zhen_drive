@@ -7,7 +7,7 @@ import MenuActions from '../MenuActions/MenuActions.jsx';
 import './DriveList.scss';
 
 const DriveList = (props) => {
-  const { drive, setDriveIndex, driveIndex, addPath } = useDriveStore();
+  const { drive, setDriveIndex, driveIndex } = useDriveStore();
   const [movedElm, setMovedElm] = useState(null);
   const [targetElm, setTargetElm] = useState(null);
 
