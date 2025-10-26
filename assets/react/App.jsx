@@ -32,28 +32,35 @@ function App() {
       setLoader(false);
 
       const clonedResponse = response.clone();
-      if (clonedResponse.ok === false) {
-        let msg = '';
-        const jsonResponse = await clonedResponse.json();
-        if (jsonResponse.message) msg += jsonResponse.message + ' ';
-        if (jsonResponse.violations) {
-          for (const entry of jsonResponse.violations) {
-            msg += `${entry['propertyPath']} : ${entry['message']} `;
+      try {
+        if (clonedResponse.ok === false) {
+          let msg = '';
+          const jsonResponse = await clonedResponse.json();
+          if (jsonResponse.message) msg += jsonResponse.message + ' ';
+          if (jsonResponse.violations) {
+            for (const entry of jsonResponse.violations) {
+              msg += `${entry['propertyPath']} : ${entry['message']} `;
+            }
           }
-        }
-        if (jsonResponse['hydra:description']) msg += jsonResponse['hydra:description'] + ' ';
-        toast.error(msg, {
-          autoClose: 5000,
-          theme: 'light',
-        });
+          if (jsonResponse['hydra:description']) msg += jsonResponse['hydra:description'] + ' ';
+          toast.error(msg, {
+            autoClose: 5000,
+            theme: 'light',
+          });
 
-        if (clonedResponse.status === 401 && reactLocation.pathname !== '/') {
-          localStorage.removeItem('token');
-          navigate('/');
+          if (clonedResponse.status === 401 && reactLocation.pathname !== '/') {
+            localStorage.removeItem('token');
+            navigate('/');
+          }
+        } else if (options.method.toLowerCase() !== 'get') {
+          toast.success('Envoyé', {
+            autoClose: 300,
+            theme: 'light',
+          });
         }
-      } else if (options.method.toLowerCase() !== 'get') {
-        toast.success('Envoyé', {
-          autoClose: 300,
+      } catch (e) {
+        toast.error('Erreur', {
+          autoClose: 1000,
           theme: 'light',
         });
       }

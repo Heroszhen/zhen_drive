@@ -112,6 +112,15 @@ const Drive = () => {
     toggleForm();
   };
 
+  const moveElmInFolder = async (movedElmIndex, targetElmIndex) => {
+    await changeDriveElementName(
+      movedElmIndex,
+      drive[movedElmIndex]['fullName'],
+      `${drive[targetElmIndex]['fullName']}${drive[movedElmIndex]['name']}`,
+      true
+    );
+  };
+
   return (
     <>
       <DriveContext.Provider value={{ toggleForm, openDriveElement }}>
@@ -185,6 +194,7 @@ const Drive = () => {
                       activatedDraggableField={activatedDraggableField}
                       setActivatedDraggableField={setActivatedDraggableField}
                       openDriveElement={openDriveElement}
+                      moveElmInFolder={moveElmInFolder}
                     />
                   )}
                 </DraggableField>

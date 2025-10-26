@@ -86,7 +86,7 @@ const useDriveStore = create((set, get) => ({
       });
 
       if (response.ok) {
-        set(() => ({ drive: get().drive.filter((item, itemIndex) => itemIndex !== index) }));
+        set(() => ({ drive: get().drive.filter((item, itemIndex) => itemIndex !== Number(index)) }));
       }
     } catch {}
   },
@@ -178,7 +178,8 @@ const useDriveStore = create((set, get) => ({
       if (response.ok) {
         const result = await response.json();
         if (toRemove) {
-          set(() => ({ drive: get().drive.filter((item, itemIndex) => itemIndex !== index) }));
+          console.log(typeof index);
+          set(() => ({ drive: get().drive.filter((item, itemIndex) => itemIndex !== Number(index)) }));
         } else {
           const oldDrive = get().drive;
           oldDrive[index] = result;

@@ -42,7 +42,7 @@ const DriveList = (props) => {
     setTargetElm(newTargetElm);
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     if (props.activatedDraggableField) return;
     e.preventDefault();
     e.stopPropagation();
@@ -54,7 +54,8 @@ const DriveList = (props) => {
 
     const movedIndex = movedElm.dataset.key;
     const targetIndex = finalTargetElm.dataset.key;
-    console.log(movedIndex, targetIndex);
+
+    await props.moveElmInFolder(movedIndex, targetIndex);
   };
 
   return (
