@@ -57,7 +57,7 @@ class AddUserCommand extends Command
         $name = $input->getArgument('name');
         $canAddFolder = $input->getOption('canAddFolder');
         $isAdmin = $input->getOption('isAdmin');
-dd($isAdmin === true);
+
         $user = new User();
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user,
