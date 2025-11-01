@@ -67,7 +67,7 @@ class AddUserCommand extends Command
             ->setEmail($email)
             ->setPassword($hashedPassword)
             ->setName($name)
-            ->setRoles(true === $isAdmin ? ['ROLE_USER', 'ROLE_ADMIN'] : ['ROLE_USER'])
+            ->setRoles('true' === $isAdmin ? ['ROLE_USER', 'ROLE_ADMIN'] : ['ROLE_USER'])
         ;
 
         $errors = $this->validator->validate($user);

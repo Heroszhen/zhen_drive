@@ -7,5 +7,5 @@ mv .env.dist.prod.local .env.prod.local
 echo `pwd`
 npm run build
 
-#mv dist.env.local .env.local
-#mv .env.prod.local .env.dist.prod.local
+mv dist.env.local .env.local
+mv .env.prod.local .env.dist.prod.local
