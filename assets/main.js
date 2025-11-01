@@ -15,7 +15,7 @@ if (root) {
   );
 }
 
-if ('serviceWorker' in navigator && process.env.APP_ENV === 'dev') {
+if ('serviceWorker' in navigator && process.env.APP_ENV === 'prod') {
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('/service-worker.js')
