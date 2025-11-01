@@ -14,6 +14,14 @@ const DriveMenu = (props) => {
   const [driveInfo, setDriveInfo] = useState(null);
   const [bucketInfo, setBucketInfo] = useState(null);
   const { setModalConfig } = useContext(MessageModalContext);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+
+  useEffect(() => {
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event?.preventDefault();
+      setDeferredPrompt(event);
+    });
+  }, []);
 
   useEffect(() => {
     if (user === null) return;
@@ -42,6 +50,24 @@ const DriveMenu = (props) => {
   const refresh = async () => {
     setDriveIndex(null);
     await getFolder();
+  };
+
+  const isPWAInstalled = () => {
+    return (
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia('(display-mode: fullscreen)').matches
+    );
+  };
+
+  const installApp = async () => {
+    if (deferredPrompt === null) return;
+
+    deferredPrompt.prompt();
+    // const { outcome: outcome, platform: platform } = await deferredPrompt.userChoice;
+    const { outcome: outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null);
+    }
   };
 
   return (
@@ -129,12 +155,14 @@ const DriveMenu = (props) => {
                     Déconnexion
                   </span>
                 </li>
-                <li className="list-group-item">
-                  <span>
-                    <i className="bi bi-cloud-arrow-down"></i>
-                    Installer
-                  </span>
-                </li>
+                {!isPWAInstalled() && (
+                  <li className="list-group-item">
+                    <span onClick={() => installApp()}>
+                      <i className="bi bi-cloud-arrow-down"></i>
+                      Installer
+                    </span>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

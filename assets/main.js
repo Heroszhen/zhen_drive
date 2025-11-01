@@ -14,3 +14,25 @@ if (root) {
     </BrowserRouter>
   );
 }
+
+if ('serviceWorker' in navigator && process.env.APP_ENV === 'dev') {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/service-worker.js')
+      .then((registration) => {
+        console.log('SW registered: ', registration);
+        registration.onupdatefound = () => {
+          const installingWorker = registration.installing;
+          installingWorker.onstatechange = () => {
+            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // window.location.reload();
+            }
+          };
+        };
+        return registration;
+      })
+      .catch((registrationError) => {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
+}

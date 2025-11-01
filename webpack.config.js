@@ -1,7 +1,7 @@
 const Encore = require('@symfony/webpack-encore');
 const dotenv = require('dotenv');
-//const CopyPlugin = require("copy-webpack-plugin");
-//const WorkboxPlugin = require('workbox-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 dotenv.config({ path: '.env.local' });
 
@@ -80,7 +80,22 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
+    .addPlugin(new CopyPlugin({
+        patterns: [
+            { from: "assets/react/pwa", to: 'pwa' }
+        ]
+    }))
 ;
+
+if (process.env.APP_ENV === 'prod') {
+    Encore
+        .addPlugin(new WorkboxPlugin.GenerateSW({
+            clientsClaim: true,
+            skipWaiting: true,
+            maximumFileSizeToCacheInBytes: 20 * 1024 * 1024, // 15 MB
+        }))
+    ;
+}
 
 const unoCSSPlugin = () =>
     import('@unocss/webpack').then(({ default: UnoCSS }) =>
