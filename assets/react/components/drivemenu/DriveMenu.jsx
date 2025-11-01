@@ -27,8 +27,8 @@ const DriveMenu = (props) => {
     if (user === null) return;
 
     (async () => {
-      setDriveInfo(await getBucketInfo(`${process.env.APP_ENV}/${user.name}/`));
       if (user.roles.includes('ROLE_ADMIN')) setBucketInfo(await getBucketInfo(`/`));
+      else setDriveInfo(await getBucketInfo(`${process.env.APP_ENV}/${user.name}/`));
     })();
   }, [user]);
 

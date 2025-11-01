@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const CopyPlugin = require("copy-webpack-plugin");
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
-dotenv.config({ path: '.env.local' });
+dotenv.config({ path: ['.env.local', '.env.prod.local'] });
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
