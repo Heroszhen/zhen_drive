@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import './DriveMenu.scss';
-import { logout } from '../../services/util.js';
+import { logout, convertS3Size } from '../../services/util.js';
 import useDriveStore from '../../stores/driveStore.js';
 import useUserStore from '../../stores/userStore.js';
 import { MessageModalContext } from '../../App.jsx';
@@ -182,7 +182,11 @@ const DriveMenu = (props) => {
                 data-bs-target="#collapseTwo"
                 aria-expanded="false"
                 aria-controls="collapseTwo">
-                Mon Drive : {driveInfo.size} Mo
+                Mon Drive : 
+                {(() => {
+                  const {size, unit} = convertS3Size(driveInfo.size);
+                  return ' ' + size + ' ' + unit;
+                })()}
               </button>
             </h2>
             <div id="collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordion-drive-menu">
@@ -222,7 +226,11 @@ const DriveMenu = (props) => {
                 data-bs-target="#collapseThress"
                 aria-expanded="false"
                 aria-controls="collapseThress">
-                Mon compartiment : {bucketInfo.size} Mo
+                Mon compartiment : 
+                {(() => {
+                  const {size, unit} = convertS3Size(bucketInfo.size);
+                  return ' ' + size + ' ' + unit;
+                })()}
               </button>
             </h2>
             <div id="collapseThress" className="accordion-collapse collapse" data-bs-parent="#accordion-drive-menu">

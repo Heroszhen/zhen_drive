@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useDriveStore from '../../stores/driveStore.js';
 import moment from 'moment';
 import { getExtensionIcon, getDropDownMenuPosition } from '../../services/data.js';
+import { convertS3Size } from '../../services/util.js';
 
 import MenuActions from '../MenuActions/MenuActions.jsx';
 import './DriveList.scss';
@@ -91,7 +92,15 @@ const DriveList = (props) => {
                       {elm.name}
                     </div>
                   </th>
-                  <td>{elm.fullName.endsWith('/') ? '-' : elm.size}</td>
+                  <td>
+                    {elm.fullName.endsWith('/') 
+                      ? '-' 
+                      : (() => {
+                        const {size, unit} = convertS3Size(elm.size);
+                        return size + ' ' + unit;
+                      })()
+                    }
+                  </td>
                   <td>{moment(elm.updated).format('DD/MM/YYYY')}</td>
                   <td>
                     <div className="dropdown">
