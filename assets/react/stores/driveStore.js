@@ -1,6 +1,11 @@
 import { create } from 'zustand';
 import { getRequestHeaders } from '../services/data.js';
 
+const stockPaths = (paths) => {
+  if (paths.length === 0)localStorage.removeItem('drive_paths');
+  else localStorage.setItem('drive_paths', paths.join('/'));
+}
+
 const useDriveStore = create((set, get) => ({
   drive: [],
   driveIndex: null,
@@ -57,9 +62,13 @@ const useDriveStore = create((set, get) => ({
     const oldPaths = get().paths;
     oldPaths.push(elm.name);
     set({ driveIndex: null, paths: oldPaths });
+    stockPaths(oldPaths);
     await get().getFolder(get().getFolderPath());
   },
-  setPaths: (newPaths) => set({ paths: newPaths }),
+  setPaths: (newPaths) => {
+    set({ paths: newPaths });
+    stockPaths(newPaths);
+  },
   getFolderPath: () => get().rootDir + `${get().paths.length === 0 ? '' : '/' + get().paths.join('/')}`,
   addFolder: async (folderName) => {
     const headers = getRequestHeaders();
@@ -179,7 +188,6 @@ const useDriveStore = create((set, get) => ({
       if (response.ok) {
         const result = await response.json();
         if (toRemove) {
-          console.log(typeof index);
           set(() => ({ drive: get().drive.filter((item, itemIndex) => itemIndex !== Number(index)) }));
         } else {
           const oldDrive = get().drive;

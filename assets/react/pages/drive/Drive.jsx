@@ -49,7 +49,14 @@ const Drive = () => {
         ? process.env.APP_ENV
         : process.env.APP_ENV + '/' + user.name;
       setRootDir(rootFolder);
-      getFolder(rootFolder);
+
+      const drivePaths = localStorage.getItem('drive_paths');
+      if (drivePaths) {
+        setPaths(drivePaths.split('/'));
+        getFolder(`${getFolderPath()}/`);
+      } else {
+        getFolder(rootFolder);
+      }
     }
   }, [user]);
 

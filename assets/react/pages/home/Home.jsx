@@ -33,9 +33,9 @@ const Home = () => {
   return (
     <>
       <section id="home" className="w-100 vh-100 p-2 d-flex justify-content-center align-items-center bg-[#f7f9fb]">
-        <form className="w-[80%] md:w-[400px] p-4 bg-white rounded" onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <img src="/static/icons8-google-drive-512.png" alt="" />
+        <form className="w-[90%] md:w-[400px] p-4 bg-white rounded" onSubmit={handleSubmit(onSubmit)}>
+          <div className="text-center">
+            <img className="w-[300px]" src="/static/icons8-google-drive-512.png" alt="" />
           </div>
           <h2 className="text-center">Connectez-vous</h2>
           <div className="mb-3">
