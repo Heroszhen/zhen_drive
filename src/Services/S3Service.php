@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Services\UtilService;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
@@ -15,7 +15,7 @@ class S3Service
     public function __construct(
         private readonly HttpClientInterface $s3Client,
         private readonly UtilService $utilService,
-        private readonly Logger $logger,
+        private readonly LoggerInterface $logger,
     )
     { }
 
@@ -63,7 +63,7 @@ class S3Service
         $formParts = [];
         try {
             $filePart = DataPart::fromPath(
-                $file->getRealPath(),
+                $file->getPathname(),
                 $file->getClientOriginalName(), 
                 $file->getMimeType() ?? 'application/octet-stream'
             );
@@ -73,18 +73,17 @@ class S3Service
                 'bucket' => $_ENV['S3_BUCKET'],
                 'path' => $path,
             ];
-
+            
             $formData = new FormDataPart($formParts);
-            $headers = array_merge(['Content-Type' => null], $formData->getPreparedHeaders()->toArray());
+            $headers = $formData->getPreparedHeaders()->toArray();
 
             $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'].'/s3files/file', [
                 'headers' => $headers,  
-                'body' => $formData->bodyToIterable(),
+                'body' => $formData->bodyToString(),
             ]);
             
             return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         } catch (\Exception $e) {
-            $this->logger->error('sendFile', $formParts);
             $this->utilService->logHttpErrorMessage($e);
         }
     }

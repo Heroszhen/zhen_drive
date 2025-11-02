@@ -304,15 +304,14 @@ const Drive = () => {
         </div>
       </div>
 
-      {paths.length > 0 &&
-        <button 
-          type="button" 
+      {paths.length > 0 && (
+        <button
+          type="button"
           className="btn btn-outline-primary fixed bottom-5 end-5 z-50"
-          onClick={() => changePath(paths.length - 2)}
-        >
+          onClick={() => changePath(paths.length - 2)}>
           <i className="bi bi-arrow-left-circle"></i>
         </button>
-      }
+      )}
 
       {showReaderModal && <ReaderModal setShowReaderModal={setShowReaderModal} driveFile={driveFile} />}
 

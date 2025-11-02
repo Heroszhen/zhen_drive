@@ -4,7 +4,7 @@
 date
 mv .env.local dist.env.local
 mv .env.dist.prod.local .env.prod.local
-sleep
+sleep 1
 
 echo `pwd`
 npm run build

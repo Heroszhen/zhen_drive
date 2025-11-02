@@ -54,8 +54,7 @@ const DriveMenu = (props) => {
 
   const isPWAInstalled = () => {
     return (
-      window.matchMedia('(display-mode: standalone)').matches ||
-      window.matchMedia('(display-mode: fullscreen)').matches
+      window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches
     );
   };
 
@@ -142,6 +141,9 @@ const DriveMenu = (props) => {
                   <li className="list-group-item d-flex align-items-center">
                     <i className="bi bi-bell"></i>
                     <div className="form-check form-switch">
+                      <label className="form-check-label" htmlFor="switchContact">
+                        Contact
+                      </label>
                       <input
                         className="form-check-input"
                         type="checkbox"
@@ -149,9 +151,6 @@ const DriveMenu = (props) => {
                         id="switchContact"
                         onChange={(e) => props.setSseUrl(e.target.checked ? '/api/sse/event' : null)}
                       />
-                      <label className="form-check-label" htmlFor="switchContact">
-                        Contact
-                      </label>
                     </div>
                   </li>
                 )}
