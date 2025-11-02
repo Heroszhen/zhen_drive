@@ -27,8 +27,8 @@ const DriveMenu = (props) => {
     if (user === null) return;
 
     (async () => {
+      setDriveInfo(await getBucketInfo(`${process.env.APP_ENV}/${user.name}/`));
       if (user.roles.includes('ROLE_ADMIN')) setBucketInfo(await getBucketInfo(`/`));
-      else setDriveInfo(await getBucketInfo(`${process.env.APP_ENV}/${user.name}/`));
     })();
   }, [user]);
 
@@ -130,6 +130,12 @@ const DriveMenu = (props) => {
                   <span onClick={() => refresh()}>
                     <i className="bi bi-app"></i>
                     Actualiser
+                  </span>
+                </li>
+                <li className="list-group-item">
+                  <span onClick={() => location.reload()}>
+                    <i className="bi bi-arrow-clockwise"></i>
+                    Recharger le site
                   </span>
                 </li>
                 {user?.roles.includes('ROLE_ADMIN') && (

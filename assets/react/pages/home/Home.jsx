@@ -33,7 +33,7 @@ const Home = () => {
   return (
     <>
       <section id="home" className="w-100 vh-100 p-2 d-flex justify-content-center align-items-center bg-[#f7f9fb]">
-        <form className="w-100 max-w-[400px] p-4 bg-white rounded" onSubmit={handleSubmit(onSubmit)}>
+        <form className="w-[80%] md:w-[400px] p-4 bg-white rounded" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <img src="/static/icons8-google-drive-512.png" alt="" />
           </div>
