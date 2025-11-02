@@ -182,9 +182,9 @@ const DriveMenu = (props) => {
                 data-bs-target="#collapseTwo"
                 aria-expanded="false"
                 aria-controls="collapseTwo">
-                Mon Drive : 
+                Mon Drive :
                 {(() => {
-                  const {size, unit} = convertS3Size(driveInfo.size);
+                  const { size, unit } = convertS3Size(driveInfo.size);
                   return ' ' + size + ' ' + unit;
                 })()}
               </button>
@@ -226,9 +226,9 @@ const DriveMenu = (props) => {
                 data-bs-target="#collapseThress"
                 aria-expanded="false"
                 aria-controls="collapseThress">
-                Mon compartiment : 
+                Mon compartiment :
                 {(() => {
-                  const {size, unit} = convertS3Size(bucketInfo.size);
+                  const { size, unit } = convertS3Size(bucketInfo.size);
                   return ' ' + size + ' ' + unit;
                 })()}
               </button>

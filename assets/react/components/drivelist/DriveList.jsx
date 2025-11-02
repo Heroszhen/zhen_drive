@@ -93,13 +93,12 @@ const DriveList = (props) => {
                     </div>
                   </th>
                   <td>
-                    {elm.fullName.endsWith('/') 
-                      ? '-' 
+                    {elm.fullName.endsWith('/')
+                      ? '-'
                       : (() => {
-                        const {size, unit} = convertS3Size(elm.size);
-                        return size + ' ' + unit;
-                      })()
-                    }
+                          const { size, unit } = convertS3Size(elm.size);
+                          return size + ' ' + unit;
+                        })()}
                   </td>
                   <td>{moment(elm.updated).format('DD/MM/YYYY')}</td>
                   <td>
