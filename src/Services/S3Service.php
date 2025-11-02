@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Services\UtilService;
+use Monolog\Logger;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
@@ -13,7 +14,8 @@ class S3Service
 {
     public function __construct(
         private readonly HttpClientInterface $s3Client,
-        private readonly UtilService $utilService
+        private readonly UtilService $utilService,
+        private readonly Logger $logger,
     )
     { }
 
@@ -58,6 +60,7 @@ class S3Service
 
     public function sendFile(UploadedFile $file, string $path): array
     {
+        $formParts = [];
         try {
             $filePart = DataPart::fromPath(
                 $file->getRealPath(),
@@ -81,6 +84,7 @@ class S3Service
             
             return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         } catch (\Exception $e) {
+            $this->logger->error('sendFile', $formParts);
             $this->utilService->logHttpErrorMessage($e);
         }
     }
