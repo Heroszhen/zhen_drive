@@ -123,7 +123,7 @@ const Drive = () => {
     await changeDriveElementName(
       movedElmIndex,
       drive[movedElmIndex]['fullName'],
-      `${drive[targetElmIndex]['fullName']}${drive[movedElmIndex]['name']}`,
+      `${drive[targetElmIndex]['fullName']}${drive[movedElmIndex]['name']}${drive[movedElmIndex]['fullName'].endsWith('/') ? '/' : ''}`,
       true
     );
   };

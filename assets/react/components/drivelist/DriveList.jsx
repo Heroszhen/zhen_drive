@@ -49,14 +49,15 @@ const DriveList = (props) => {
     e.stopPropagation();
 
     const finalTargetElm = e.target.closest('.drive-elm');
-    if (!finalTargetElm.classList.contains('drive-folder') || !targetElm || !movedElm) {
+    if (!finalTargetElm.classList.contains('drive-folder') 
+      || !targetElm 
+      || !movedElm
+      || movedElm === finalTargetElm
+    ) {
       return;
     }
 
-    const movedIndex = movedElm.dataset.key;
-    const targetIndex = finalTargetElm.dataset.key;
-
-    await props.moveElmInFolder(movedIndex, targetIndex);
+    await props.moveElmInFolder(movedElm.dataset.key, finalTargetElm.dataset.key);
   };
 
   return (
