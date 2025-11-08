@@ -49,11 +49,7 @@ const DriveList = (props) => {
     e.stopPropagation();
 
     const finalTargetElm = e.target.closest('.drive-elm');
-    if (!finalTargetElm.classList.contains('drive-folder') 
-      || !targetElm 
-      || !movedElm
-      || movedElm === finalTargetElm
-    ) {
+    if (!finalTargetElm.classList.contains('drive-folder') || !targetElm || !movedElm || movedElm === finalTargetElm) {
       return;
     }
 

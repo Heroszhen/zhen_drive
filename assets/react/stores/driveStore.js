@@ -2,9 +2,9 @@ import { create } from 'zustand';
 import { getRequestHeaders } from '../services/data.js';
 
 const stockPaths = (paths) => {
-  if (paths.length === 0)localStorage.removeItem('drive_paths');
+  if (paths.length === 0) localStorage.removeItem('drive_paths');
   else localStorage.setItem('drive_paths', paths.join('/'));
-}
+};
 
 const useDriveStore = create((set, get) => ({
   drive: [],

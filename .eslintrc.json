@@ -63,7 +63,8 @@
         "args": "after-used", 
         "argsIgnorePattern": "^_" 
       }
-    ]
+    ],
+    "jsx-a11y/media-has-caption": "off"
   },
   "ignorePatterns": [
     "assets/controllers/*",
