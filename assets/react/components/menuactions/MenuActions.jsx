@@ -4,8 +4,8 @@ import useDriveStore from '../../stores/driveStore.js';
 import { DriveContext } from '../../pages/Drive/Drive.jsx';
 
 const MenuActions = () => {
-  const { setDriveIndex, driveIndex, deleteDriveElement } = useDriveStore();
-  const { toggleForm, openDriveElement } = useContext(DriveContext);
+  const { setDriveIndex, driveIndex, deleteDriveElement, drive } = useDriveStore();
+  const { toggleForm, openDriveElement, openInNewTab } = useContext(DriveContext);
 
   const removeDriveElement = async () => {
     if (!window.confirm('Veux-tu vraiment supprimer cet élément ?')) {
@@ -23,6 +23,12 @@ const MenuActions = () => {
           <i className="bi bi-book"></i>
           <span>Ouvrir</span>
         </div>
+        {driveIndex && !drive[driveIndex]['fullName'].endsWith('/') &&
+          <div className="action" onClick={() => openInNewTab(driveIndex)}>
+            <i className="bi bi-sign-turn-right"></i>
+            <span>Nouvel onglet</span>
+          </div>
+        }
         <div className="action">
           <i className="bi bi-download"></i>
           <span>Télécharger</span>

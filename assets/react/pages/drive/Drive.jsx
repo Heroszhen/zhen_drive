@@ -109,6 +109,11 @@ const Drive = () => {
     setDriveFile(file);
   };
 
+  const openInNewTab = async (index) => {
+    const file = await getFileUrl(index);
+    window.open(file.url, '_blank');
+  };
+
   const changeElmName = async (data) => {
     const oldPath = drive[driveIndex]['fullName'];
     const tab = oldPath.split('/');
@@ -130,7 +135,7 @@ const Drive = () => {
 
   return (
     <>
-      <DriveContext.Provider value={{ toggleForm, openDriveElement }}>
+      <DriveContext.Provider value={{ toggleForm, openDriveElement, openInNewTab }}>
         <section id="drive" className="p-2">
           <section className="container-fluid">
             <div className="row">

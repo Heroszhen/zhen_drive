@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { IMAGE_EXTENSIONS } from '../../services/data.js';
 
+import './ReaderModal.scss';
+
 const ReaderModal = (props) => {
   const modalBtn = useRef(null);
   const modalBtnClose = useRef(null);
@@ -53,6 +55,18 @@ const ReaderModal = (props) => {
             )}
             {IMAGE_EXTENSIONS.includes(props.driveFile.extension) && (
               <img src={props.driveFile.url} className="w-100 h-auto" alt="" />
+            )}
+            {props.driveFile.extension === 'mp3' && (
+              <section className="file-wrap">
+                <audio controls src={props.driveFile.url}></audio>
+              </section>
+            )}
+            {props.driveFile.extension === 'mp4' && (
+              <section className="file-wrap">
+                <video className="bg-dark" controls>
+                  <source src={props.driveFile.url} type="video/mp4" />
+                </video>
+              </section>
             )}
           </div>
         )}
