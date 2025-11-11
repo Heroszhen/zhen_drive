@@ -24,7 +24,7 @@ const MenuActions = () => {
           <span>Ouvrir</span>
         </div>
         {driveIndex !== null && !drive?.[driveIndex]['fullName'].endsWith('/') && (
-          <div className="action" onClick={() => openInNewTab(driveIndex)}>
+          <div className="action" onClick={() => {openInNewTab(driveIndex);document.body.click();}}>
             <i className="bi bi-sign-turn-right"></i>
             <span>Nouvel onglet</span>
           </div>
