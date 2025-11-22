@@ -7,6 +7,22 @@
                     color: white !important;
                 }
             }
+
+            @media (min-width:992px) {
+                .wrap-filename {
+                    width: calc(100vw - 800px);
+                }
+            }
+            @media (max-width:991px) {
+                .wrap-filename {
+                    width: calc(100vw - 400px);
+                }
+            }
+            @media (max-width:767px) {
+                .wrap-filename {
+                    width: calc(100vw - 100px);
+                }
+            }
         }
     }
 }
