@@ -6,10 +6,24 @@ import './ReaderModal.scss';
 const ReaderModal = (props) => {
   const modalBtn = useRef(null);
   const modalBtnClose = useRef(null);
+  const ZHEN_FRONT_SERVICE_FILE_VIEW = process.env.ZHEN_FRONT_SERVICE + '/file-view';
+  const iframeRef = useRef(null);
 
   useEffect(() => {
     modalBtn.current?.click();
   }, []);
+
+  useEffect(() => {
+    if (props.driveFile !== null && iframeRef.current !== null) {
+      iframeRef.current.addEventListener('load', () => {
+        const extension = IMAGE_EXTENSIONS.includes(props.driveFile.extension) ? 'image' : props.driveFile.extension;
+        iframeRef.current.contentWindow.postMessage(
+          { type: 'READY', payload: { url: props.driveFile.url, extension: extension } },
+          ZHEN_FRONT_SERVICE_FILE_VIEW
+        );
+      });
+    }
+  }, [props.driveFile, iframeRef.current]);
 
   return (
     <>
@@ -50,7 +64,7 @@ const ReaderModal = (props) => {
         </div>
         {props.driveFile && (
           <div className="w-[800px] mx-auto mt-[38px] mw-100 h-[calc(100%-38px)] p-1 overflow-y-auto">
-            {props.driveFile.extension === 'pdf' && (
+            {/* {props.driveFile.extension === 'pdf' && (
               <iframe src={props.driveFile.url} className="w-100 h-[99%]" title="pdf"></iframe>
             )}
             {IMAGE_EXTENSIONS.includes(props.driveFile.extension) && (
@@ -67,7 +81,12 @@ const ReaderModal = (props) => {
                   <source src={props.driveFile.url} type="video/mp4" />
                 </video>
               </section>
-            )}
+            )} */}
+            <iframe
+              src={ZHEN_FRONT_SERVICE_FILE_VIEW}
+              className="w-100 h-[99%]"
+              title={props.driveFile.name}
+              ref={iframeRef}></iframe>
           </div>
         )}
       </div>
