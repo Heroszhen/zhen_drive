@@ -5,6 +5,7 @@ import Loader from './components/Loader/Loader.jsx';
 import { ToastContainer, toast } from 'react-toastify';
 import useUserStore, { getUser } from './stores/userStore.js';
 import MessageModal from './components/MessageModal/MessageModal.jsx';
+import * as translations from './stores/translations.json';
 
 export const MessageModalContext = createContext();
 
@@ -36,13 +37,13 @@ function App() {
         if (clonedResponse.ok === false) {
           let msg = '';
           const jsonResponse = await clonedResponse.json();
-          if (jsonResponse.message) msg += jsonResponse.message + ' ';
+          if (jsonResponse.message) msg += translations[jsonResponse.message] ?? jsonResponse.message + ' ';
           if (jsonResponse.violations) {
             for (const entry of jsonResponse.violations) {
-              msg += `${entry['propertyPath']} : ${entry['message']} `;
+              msg += `${entry['propertyPath']} : ${translations[entry['message']] ?? entry['message']} `;
             }
           }
-          if (jsonResponse['hydra:description']) msg += jsonResponse['hydra:description'] + ' ';
+          if (jsonResponse['hydra:description']) msg += translations[jsonResponse.message] ?? jsonResponse.message + ' ';
           toast.error(msg, {
             autoClose: 5000,
             theme: 'light',

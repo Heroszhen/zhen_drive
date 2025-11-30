@@ -28,6 +28,11 @@ export const getExtensionIcon = (driveElm) => {
 
   const extension = driveElm.extension.toLowerCase();
   if (extension === 'pdf') return <i className="bi bi-file-earmark-pdf-fill"></i>;
+  if (extension.includes('doc')) return <i className="bi bi-filetype-docx"></i>;
+  if (extension.includes('xl')) return <i className="bi bi-filetype-xlsx"></i>;
+  if (extension === 'mp4') return <i className="bi bi-filetype-mp4"></i>;
+  if (extension === 'mp3') return <i className="bi bi-filetype-mp3"></i>;
+  if (['zip', 'rar'].includes(extension)) return <i className="bi bi-file-earmark-zip"></i>;
   if (IMAGE_EXTENSIONS.includes(extension)) return <i className="bi bi-file-earmark-image"></i>;
   else return <i className="bi bi-file-x"></i>;
 };
