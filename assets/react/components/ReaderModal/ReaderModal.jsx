@@ -15,15 +15,21 @@ const ReaderModal = (props) => {
 
   useEffect(() => {
     if (props.driveFile !== null && iframeRef.current !== null) {
-      iframeRef.current.addEventListener('load', () => {
-        const extension = IMAGE_EXTENSIONS.includes(props.driveFile.extension) ? 'image' : props.driveFile.extension;
-        iframeRef.current.contentWindow.postMessage(
-          { type: 'READY', payload: { url: props.driveFile.url, extension: extension } },
-          ZHEN_FRONT_SERVICE_FILE_VIEW
-        );
-      });
+      iframeRef.current.addEventListener('load', loadIframe);
+    }
+
+    return () => {
+      iframeRef.current?.removeEventListener('load', loadIframe);
     }
   }, [props.driveFile, iframeRef.current]);
+
+  const loadIframe = () => {
+    const extension = IMAGE_EXTENSIONS.includes(props.driveFile.extension) ? 'image' : props.driveFile.extension;
+    iframeRef.current.contentWindow.postMessage(
+      { type: 'READY', payload: { url: props.driveFile.url, extension: extension } },
+      ZHEN_FRONT_SERVICE_FILE_VIEW
+    );
+  }
 
   return (
     <>
