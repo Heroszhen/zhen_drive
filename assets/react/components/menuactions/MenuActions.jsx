@@ -5,7 +5,7 @@ import { DriveContext } from '../../pages/Drive/Drive.jsx';
 
 const MenuActions = () => {
   const { setDriveIndex, driveIndex, deleteDriveElement, drive } = useDriveStore();
-  const { toggleForm, openDriveElement, openInNewTab } = useContext(DriveContext);
+  const { toggleForm, openDriveElement, openInNewTab, setShowWindow } = useContext(DriveContext);
 
   const removeDriveElement = async () => {
     if (!window.confirm('Veux-tu vraiment supprimer cet élément ?')) {
@@ -18,7 +18,7 @@ const MenuActions = () => {
 
   return (
     <>
-      <div className="menu-actions">
+      <div className="menu-actions" onClick={() => document.body.click()}>
         <div className="action" onClick={() => openDriveElement(driveIndex)}>
           <i className="bi bi-book"></i>
           <span>Ouvrir</span>
@@ -28,7 +28,6 @@ const MenuActions = () => {
             className="action"
             onClick={() => {
               openInNewTab(driveIndex);
-              document.body.click();
             }}>
             <i className="bi bi-sign-turn-right"></i>
             <span>Nouvel onglet</span>
@@ -42,12 +41,11 @@ const MenuActions = () => {
           className="action"
           onClick={() => {
             toggleForm(1);
-            document.body.click();
           }}>
           <i className="bi bi-pencil"></i>
           <span>Renommer</span>
         </div>
-        <div className="action">
+        <div className="action" onClick={() => setShowWindow(true)}>
           <i className="bi bi-folder-symlink"></i>
           <span>Déplacer</span>
         </div>

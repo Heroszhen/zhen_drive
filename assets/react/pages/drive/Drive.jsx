@@ -8,6 +8,7 @@ import DriveMenu from '../../components/DriveMenu/DriveMenu.jsx';
 import DraggableField from '../../components/DraggableField/DraggableField.jsx';
 import ReaderModal from '../../components/ReaderModal/ReaderModal.jsx';
 import SSEEvent from '../../components/SSEEvent/SSEEvent.jsx';
+import FoldersWindow from '../../components/FoldersWindow/FoldersWindow.jsx';
 
 export const DriveContext = createContext();
 
@@ -42,6 +43,7 @@ const Drive = () => {
   const [driveFile, setDriveFile] = useState(null);
   const [sseUrl, setSseUrl] = useState(null);
   const [activatedDraggableField, setActivatedDraggableField] = useState(true);
+  const [showWindow, setShowWindow] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -135,7 +137,7 @@ const Drive = () => {
 
   return (
     <>
-      <DriveContext.Provider value={{ toggleForm, openDriveElement, openInNewTab }}>
+      <DriveContext.Provider value={{ toggleForm, openDriveElement, openInNewTab, setShowWindow }}>
         <section id="drive" className="p-2">
           <section className="container-fluid">
             <div className="row">
@@ -326,6 +328,11 @@ const Drive = () => {
       )}
 
       {showReaderModal && <ReaderModal setShowReaderModal={setShowReaderModal} driveFile={driveFile} />}
+      {showWindow && 
+        <FoldersWindow 
+          setShowWindow={setShowWindow}
+        />
+      }
 
       {user?.roles.includes('ROLE_ADMIN') && <SSEEvent url={sseUrl} />}
     </>
