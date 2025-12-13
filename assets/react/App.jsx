@@ -53,11 +53,6 @@ function App() {
             localStorage.removeItem('token');
             navigate('/');
           }
-        } else if (options.method.toLowerCase() !== 'get') {
-          toast.success('Envoyé', {
-            autoClose: 300,
-            theme: 'light',
-          });
         }
       } catch (e) {
         toast.error('Erreur', {
