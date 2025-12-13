@@ -20,7 +20,7 @@ const ReaderModal = (props) => {
 
     return () => {
       iframeRef.current?.removeEventListener('load', loadIframe);
-    }
+    };
   }, [props.driveFile, iframeRef.current]);
 
   const loadIframe = () => {
@@ -29,7 +29,7 @@ const ReaderModal = (props) => {
       { type: 'READY', payload: { url: props.driveFile.url, extension: extension } },
       ZHEN_FRONT_SERVICE_FILE_VIEW
     );
-  }
+  };
 
   return (
     <>

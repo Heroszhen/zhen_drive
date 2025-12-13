@@ -43,7 +43,8 @@ function App() {
               msg += `${entry['propertyPath']} : ${translations[entry['message']] ?? entry['message']} `;
             }
           }
-          if (jsonResponse['hydra:description']) msg += translations[jsonResponse.message] ?? jsonResponse.message + ' ';
+          if (jsonResponse['hydra:description'])
+            msg += translations[jsonResponse.message] ?? jsonResponse.message + ' ';
           toast.error(msg, {
             autoClose: 5000,
             theme: 'light',
