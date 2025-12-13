@@ -11,6 +11,7 @@ const DriveList = (props) => {
   const { drive, setDriveIndex, driveIndex } = useDriveStore();
   const [movedElm, setMovedElm] = useState(null);
   const [targetElm, setTargetElm] = useState(null);
+  const [canDrag, setCanDrag] = useState(false);
 
   const handleDragStart = (e) => {
     props.setActivatedDraggableField(false);
@@ -68,7 +69,9 @@ const DriveList = (props) => {
               <th scope="col">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody
+            onMouseLeave={() => setCanDrag(false)}
+          >
             {drive
               .filter((elm) => elm.name.toLowerCase().includes(props.keywords.toLowerCase()))
               .map((elm, index) => (
@@ -76,17 +79,20 @@ const DriveList = (props) => {
                   key={index}
                   className={`drive-elm${driveIndex === index ? ' active' : ''}${elm.fullName.endsWith('/') ? ' drive-folder' : ''}`}
                   onClick={() => setDriveIndex(index)}
-                  onDoubleClick={() => props.openDriveElement(index)}
+                  onDoubleClick={(e) => setCanDrag(true)}
                   data-key={index}
-                  draggable="true"
+                  draggable={canDrag}
                   onDragStart={handleDragStart}
                   onDragEnd={handleDragEnd}
                   onDragEnter={handleDragEnter}
-                  onDrop={handleDrop}>
+                  onDrop={handleDrop}
+                >
                   <th scope="row">
                     <div className="d-flex align-items-center wrap-filename">
                       <span className="me-2 text-[23px]">{getExtensionIcon(elm)}</span>
-                      <div className="w-[calc(100%-25px)] ww-break-word">{elm.name}</div>
+                      <div className="w-[calc(100%-25px)] ww-break-word">
+                        <span onDoubleClick={(e) => {e.stopPropagation();props.openDriveElement(index)}}>{elm.name}</span>
+                      </div>
                     </div>
                   </th>
                   <td>
