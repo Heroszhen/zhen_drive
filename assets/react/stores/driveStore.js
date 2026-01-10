@@ -146,7 +146,7 @@ const useDriveStore = create((set, get) => ({
   },
   getBucketInfo: async (path) => {
     await wait(0.5);
-    
+
     const headers = getRequestHeaders();
     try {
       const response = await fetch(`/api/s3/get-bucket`, {
