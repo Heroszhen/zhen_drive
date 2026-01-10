@@ -89,6 +89,7 @@ const DriveList = (props) => {
                       <span className="me-2 text-[23px]">{getExtensionIcon(elm)}</span>
                       <div className="w-[calc(100%-25px)] ww-break-word">
                         <span
+                          className="cursor-pointer"
                           onDoubleClick={(e) => {
                             e.stopPropagation();
                             props.openDriveElement(index);
