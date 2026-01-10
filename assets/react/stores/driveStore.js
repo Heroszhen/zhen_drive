@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { getRequestHeaders } from '../services/data.js';
+import { wait } from '../services/util.js';
 
 const stockPaths = (paths) => {
   if (paths.length === 0) localStorage.removeItem('drive_paths');
@@ -144,6 +145,8 @@ const useDriveStore = create((set, get) => ({
     } catch {}
   },
   getBucketInfo: async (path) => {
+    await wait(0.5);
+    
     const headers = getRequestHeaders();
     try {
       const response = await fetch(`/api/s3/get-bucket`, {
