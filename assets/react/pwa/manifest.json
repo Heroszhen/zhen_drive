@@ -1,6 +1,6 @@
 {
-  "short_name": "Drive",
-  "name": "Drive",
+  "short_name": "ZDrive",
+  "name": "ZDrive",
   "icons": [
     {
       "src": "./images/drive-pwa-64.png",
