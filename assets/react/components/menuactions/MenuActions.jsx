@@ -5,7 +5,7 @@ import { DriveContext } from '../../pages/Drive/Drive.jsx';
 
 const MenuActions = () => {
   const { setDriveIndex, driveIndex, deleteDriveElement, drive } = useDriveStore();
-  const { toggleForm, openDriveElement, openInNewTab } = useContext(DriveContext);
+  const { toggleForm, openDriveElement, openInNewTab, setShowFolderModal } = useContext(DriveContext);
 
   const removeDriveElement = async () => {
     if (!window.confirm('Veux-tu vraiment supprimer cet élément ?')) {
@@ -47,7 +47,12 @@ const MenuActions = () => {
           <i className="bi bi-pencil"></i>
           <span>Renommer</span>
         </div>
-        <div className="action">
+        <div 
+          className="action"
+          onClick={() => {
+            setShowFolderModal(true);
+            document.body.click();
+          }}>
           <i className="bi bi-folder-symlink"></i>
           <span>Déplacer</span>
         </div>
