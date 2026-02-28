@@ -1,5 +1,4 @@
 import 'uno.css';
-
 import { createRoot } from 'react-dom/client';
 import App from './react/App.jsx';
 import { BrowserRouter } from 'react-router-dom';

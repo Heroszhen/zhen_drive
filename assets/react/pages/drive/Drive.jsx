@@ -328,7 +328,7 @@ const Drive = () => {
       )}
 
       {showReaderModal && <ReaderModal setShowReaderModal={setShowReaderModal} driveFile={driveFile} />}
-      
+
       {showFolderModal && <FolderModal setShowFolderModal={setShowFolderModal} />}
 
       {user?.roles.includes('ROLE_ADMIN') && <SSEEvent url={sseUrl} />}

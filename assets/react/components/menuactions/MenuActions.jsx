@@ -47,7 +47,7 @@ const MenuActions = () => {
           <i className="bi bi-pencil"></i>
           <span>Renommer</span>
         </div>
-        <div 
+        <div
           className="action"
           onClick={() => {
             setShowFolderModal(true);

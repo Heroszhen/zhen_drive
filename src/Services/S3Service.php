@@ -131,4 +131,18 @@ class S3Service
             $this->utilService->logHttpErrorMessage($e, 's3 rename');
         }
     }
+
+    public function getFolderFolders(string $path): array
+    {
+        try {
+            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'].'/s3files/folder/folders', [
+                'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $path]
+            ]);
+
+            return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+
+        } catch (\Exception $e) {
+            $this->utilService->logHttpErrorMessage($e);
+        }
+    }
 }

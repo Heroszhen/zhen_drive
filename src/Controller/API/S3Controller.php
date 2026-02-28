@@ -113,4 +113,14 @@ final class S3Controller extends AbstractController
 
         return $this->json($result);
     }
+
+    #[Route('/get-folder-folders', name: 'app_s3_get_folder_folders', methods:['POST'])]
+    public function getFolederFolders(Request $request): Response
+    {
+        $content = json_decode($request->getContent(), true);
+
+        $result = $this->s3Service->getFolderFolders($content['path']);
+
+        return $this->json($result);
+    }
 }

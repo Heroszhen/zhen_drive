@@ -201,5 +201,17 @@ const useDriveStore = create((set, get) => ({
       }
     } catch {}
   },
+  getFolderFolders: async (path = null) => {
+    const headers = getRequestHeaders();
+    try {
+      const response = await fetch(`/api/s3/get-folder-folders`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ path: path }),
+      });
+
+      if (response.ok) return (await response.json())['hydra:member'];
+    } catch {}
+  },
 }));
 export default useDriveStore;
