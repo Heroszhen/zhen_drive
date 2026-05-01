@@ -15,10 +15,10 @@ final class S3Controller extends AbstractController
 {
     public function __construct(
         private readonly S3Service $s3Service
-    )
-    { }
+    ) {
+    }
 
-    #[Route('/get-folder', name: 'app_s3_get_folder', methods:['POST'])]
+    #[Route('/get-folder', name: 'app_s3_get_folder', methods: ['POST'])]
     public function index(Request $request): Response
     {
         $content = json_decode($request->getContent(), true);
@@ -28,7 +28,7 @@ final class S3Controller extends AbstractController
         return $this->json($response);
     }
 
-    #[Route('/add-folder', name: 'app_s3_add_folder', methods:['POST'])]
+    #[Route('/add-folder', name: 'app_s3_add_folder', methods: ['POST'])]
     public function addFolder(Request $request): Response
     {
         $content = json_decode($request->getContent(), true);
@@ -38,7 +38,7 @@ final class S3Controller extends AbstractController
         return $this->json($response);
     }
 
-    #[Route('/delete-drive', name: 'app_s3_delete_drive', methods:['POST'])]
+    #[Route('/delete-drive', name: 'app_s3_delete_drive', methods: ['POST'])]
     public function deleteDrive(Request $request): Response
     {
         $content = json_decode($request->getContent(), true);
@@ -48,25 +48,25 @@ final class S3Controller extends AbstractController
         return $this->json(null, true === $response ? Response::HTTP_NO_CONTENT : Response::HTTP_BAD_REQUEST);
     }
 
-    #[Route('/upload-folder-files', name: 'app_s3_upload_folder_files', methods:['POST'])]
+    #[Route('/upload-folder-files', name: 'app_s3_upload_folder_files', methods: ['POST'])]
     public function uploadFolderOrFiles(Request $request): Response
-    {   
+    {
         $files = $request->files;
         $form =  $request->request;
 
         $rootPath = $form->get('rootPath');
-        $rootPath = !str_ends_with($rootPath, '/') ? $rootPath.'/' : $rootPath;
+        $rootPath = !str_ends_with($rootPath, '/') ? $rootPath . '/' : $rootPath;
 
         $driveFiles = [];
         $newFolder = [];
         $total = (int) $form->get('total');
         for ($index = 0; $index < $total; $index++) {
-             /** @var UploadedFile $file */
+            /** @var UploadedFile $file */
             $file = $files->get("file_{$index}");
             $folderPath = $rootPath;
             if ($form->get("file_{$index}_folder")) {
                 $folderPath .= $form->get("file_{$index}_folder");
-                $folderPath = !str_ends_with($folderPath, '/') ? $folderPath.'/' : $folderPath;
+                $folderPath = !str_ends_with($folderPath, '/') ? $folderPath . '/' : $folderPath;
 
                 $tab = explode('/', $form->get("file_{$index}_folder"));
                 $newFolder[] = $tab[0];
@@ -77,34 +77,34 @@ final class S3Controller extends AbstractController
 
         foreach (array_unique($newFolder) as $folder) {
             $name = rtrim($folder, '/');
-            $s3file = new S3File($name, $rootPath.$name.'/');
+            $s3file = new S3File($name, $rootPath . $name . '/');
             $driveFiles[] = $s3file;
         }
 
         return $this->json($driveFiles, 201);
     }
 
-    #[Route('/get-bucket', name: 'app_s3_get_bucket', methods:['POST'])]
+    #[Route('/get-bucket', name: 'app_s3_get_bucket', methods: ['POST'])]
     public function getBucketInfo(Request $request): Response
     {
         $content = json_decode($request->getContent(), true);
 
         $result = $this->s3Service->getBucket($content['path']);
-    
+
         return $this->json($result);
     }
 
-    #[Route('/get-file-url', name: 'app_s3_get_file-url', methods:['POST'])]
+    #[Route('/get-file-url', name: 'app_s3_get_file-url', methods: ['POST'])]
     public function getFileUrl(Request $request): Response
     {
         $content = json_decode($request->getContent(), true);
 
         $result = $this->s3Service->getFileUrl($content['path']);
-    
+
         return $this->json($result);
     }
 
-    #[Route('/rename-folder-file', name: 'app_s3_rename_folder_file', methods:['POST'])]
+    #[Route('/rename-folder-file', name: 'app_s3_rename_folder_file', methods: ['POST'])]
     public function renameFolederFile(Request $request): Response
     {
         $content = json_decode($request->getContent(), true);
@@ -114,12 +114,22 @@ final class S3Controller extends AbstractController
         return $this->json($result);
     }
 
-    #[Route('/get-folder-folders', name: 'app_s3_get_folder_folders', methods:['POST'])]
+    #[Route('/get-folder-folders', name: 'app_s3_get_folder_folders', methods: ['POST'])]
     public function getFolederFolders(Request $request): Response
     {
         $content = json_decode($request->getContent(), true);
 
         $result = $this->s3Service->getFolderFolders($content['path']);
+
+        return $this->json($result);
+    }
+
+    #[Route('/modify-file', name: 'app_s3_modify_file', methods: ['POST'])]
+    public function modifyFile(Request $request): Response
+    {
+        $content = json_decode($request->getContent(), true);
+
+        $result = $this->s3Service->modifyFile($content['path'], $content['content']);
 
         return $this->json($result);
     }

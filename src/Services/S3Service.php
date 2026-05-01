@@ -16,8 +16,8 @@ class S3Service
         private readonly HttpClientInterface $s3Client,
         private readonly UtilService $utilService,
         private readonly LoggerInterface $logger,
-    )
-    { }
+    ) {
+    }
 
     public function getFolder(string $path): array
     {
@@ -35,7 +35,7 @@ class S3Service
     public function addFolder(string $path): array
     {
         try {
-            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'].'/s3files/folder', [
+            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'] . '/s3files/folder', [
                 'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $path]
             ]);
 
@@ -48,7 +48,7 @@ class S3Service
     public function deleteDrive(string $path): bool
     {
         try {
-            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'].'/s3files/delete', [
+            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'] . '/s3files/delete', [
                 'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $path]
             ]);
 
@@ -64,7 +64,7 @@ class S3Service
         try {
             $filePart = DataPart::fromPath(
                 $file->getPathname(),
-                $file->getClientOriginalName(), 
+                $file->getClientOriginalName(),
                 $file->getMimeType() ?? 'application/octet-stream'
             );
 
@@ -73,15 +73,15 @@ class S3Service
                 'bucket' => $_ENV['S3_BUCKET'],
                 'path' => $path,
             ];
-            
+
             $formData = new FormDataPart($formParts);
             $headers = $formData->getPreparedHeaders()->toArray();
 
-            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'].'/s3files/file', [
-                'headers' => $headers,  
+            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'] . '/s3files/file', [
+                'headers' => $headers,
                 'body' => $formData->bodyToString(),
             ]);
-            
+
             return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
         } catch (\Exception $e) {
             $this->utilService->logHttpErrorMessage($e);
@@ -91,7 +91,7 @@ class S3Service
     public function getBucket(string $path): array
     {
         try {
-            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'].'/s3files/bucket', [
+            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'] . '/s3files/bucket', [
                 'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $path]
             ]);
 
@@ -104,12 +104,11 @@ class S3Service
     public function getFileUrl(string $path): array
     {
         try {
-            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'].'/s3files/file-url', [
+            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'] . '/s3files/file-url', [
                 'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $path]
             ]);
 
             return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
-
         } catch (\Exception $e) {
             $this->utilService->logHttpErrorMessage($e);
         }
@@ -117,7 +116,7 @@ class S3Service
 
     public function rename(string $oldPath, string $newPath, bool $isFile = true): array
     {
-        $url = $_ENV['ZHEN_API_ENDPOINT'].'/s3files/rename-';
+        $url = $_ENV['ZHEN_API_ENDPOINT'] . '/s3files/rename-';
         $url .= $isFile ? 'file' : 'folder';
 
         try {
@@ -126,7 +125,6 @@ class S3Service
             ]);
 
             return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
-
         } catch (\Exception $e) {
             $this->utilService->logHttpErrorMessage($e, 's3 rename');
         }
@@ -135,14 +133,28 @@ class S3Service
     public function getFolderFolders(string $path): array
     {
         try {
-            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'].'/s3files/folder/folders', [
+            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'] . '/s3files/folder/folders', [
                 'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $path]
             ]);
 
             return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
-
         } catch (\Exception $e) {
             $this->utilService->logHttpErrorMessage($e);
+        }
+    }
+
+    public function modifyFile(string $path, string $content): ?array
+    {
+        $url = $_ENV['ZHEN_API_ENDPOINT'] . '/s3files/modify-file';
+
+        try {
+            $response = $this->s3Client->request('POST', $url, [
+                'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $path, 'content' => $content]
+            ]);
+
+            return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\Exception $e) {
+            $this->utilService->logHttpErrorMessage($e, 's3 modify file');
         }
     }
 }

@@ -25,7 +25,7 @@ function App() {
       const [url, options = {}] = args;
       if (!url.includes('api/sse')) setLoader(true);
 
-      if (options.method.toLowerCase() === 'patch') {
+      if (options.method?.toLowerCase() === 'patch') {
         options.headers['Content-Type'] = 'application/merge-patch+json';
       }
       const response = await originalFetch.apply(this, [url, options]);
@@ -73,7 +73,7 @@ function App() {
 
   return (
     <>
-      <MessageModalContext.Provider value={{ setModalConfig }}>
+      <MessageModalContext.Provider value={{ setModalConfig, toast }}>
         <RoutesWrapper canQuery={canQuery} />
         {loader && <Loader />}
 

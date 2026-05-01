@@ -201,6 +201,29 @@ const useDriveStore = create((set, get) => ({
       }
     } catch {}
   },
+  modifyFile: async (path, content) => {
+    const headers = getRequestHeaders();
+    const payload = {
+      path: path,
+      content: content,
+    };
+    let result = true;
+    try {
+      const response = await fetch(`/api/s3/modify-file`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        result = false;
+      }
+    } catch {
+      result = false;
+    }
+
+    return result;
+  },
   getFolderFolders: async (path = null) => {
     const headers = getRequestHeaders();
     try {

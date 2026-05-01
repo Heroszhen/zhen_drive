@@ -9,6 +9,7 @@ import DraggableField from '../../components/DraggableField/DraggableField.jsx';
 import ReaderModal from '../../components/ReaderModal/ReaderModal.jsx';
 import SSEEvent from '../../components/SSEEvent/SSEEvent.jsx';
 import FolderModal from '../../components/FolderModal/FolderModal.jsx';
+import TXTEditor from '../../components/Editor/TXT/TXTEditor.jsx';
 
 export const DriveContext = createContext();
 
@@ -44,6 +45,7 @@ const Drive = () => {
   const [sseUrl, setSseUrl] = useState(null);
   const [activatedDraggableField, setActivatedDraggableField] = useState(true);
   const [showFolderModal, setShowFolderModal] = useState(false);
+  const [openEditor, setOpenEditor] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -135,9 +137,13 @@ const Drive = () => {
     );
   };
 
+  const editFile = () => {
+    setOpenEditor(true);
+  };
+
   return (
     <>
-      <DriveContext.Provider value={{ toggleForm, openDriveElement, openInNewTab, setShowFolderModal }}>
+      <DriveContext.Provider value={{ toggleForm, openDriveElement, openInNewTab, setShowFolderModal, editFile }}>
         <section id="drive" className="p-2">
           <section className="container-fluid">
             <div className="row">
@@ -332,6 +338,8 @@ const Drive = () => {
       {showFolderModal && <FolderModal setShowFolderModal={setShowFolderModal} />}
 
       {user?.roles.includes('ROLE_ADMIN') && <SSEEvent url={sseUrl} />}
+
+      {openEditor && <TXTEditor setOpenEditor={setOpenEditor} />}
     </>
   );
 };
