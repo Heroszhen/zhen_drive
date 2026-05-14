@@ -23,7 +23,7 @@ const MenuActions = () => {
           <i className="bi bi-book"></i>
           <span>Ouvrir</span>
         </div>
-        {driveIndex && !drive?.[driveIndex]['fullName'].endsWith('/') && (
+        {driveIndex !== null && !drive?.[driveIndex]['fullName'].endsWith('/') && (
           <>
             <div
               className="action"
