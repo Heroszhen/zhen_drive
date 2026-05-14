@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import useUserStore, { getUser } from './stores/userStore.js';
 import MessageModal from './components/MessageModal/MessageModal.jsx';
 import * as translations from './stores/translations.json';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export const MessageModalContext = createContext();
 
@@ -74,7 +75,9 @@ function App() {
   return (
     <>
       <MessageModalContext.Provider value={{ setModalConfig, toast }}>
-        <RoutesWrapper canQuery={canQuery} />
+        <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID}>
+          <RoutesWrapper canQuery={canQuery} />
+        </GoogleOAuthProvider>
         {loader && <Loader />}
 
         <ToastContainer

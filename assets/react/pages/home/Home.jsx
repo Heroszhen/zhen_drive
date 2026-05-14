@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import './Home.scss';
-import useUserStore, { getAuth } from '../../stores/userStore.js';
+import useUserStore, { getAuth, getGmailLoginToken } from '../../stores/userStore.js';
 import { useNavigate } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
 
 const Home = () => {
   const {
@@ -29,6 +30,12 @@ const Home = () => {
   const onSubmit = async (data) => {
     await getAuth(data);
   };
+
+  const doLoginWithGmail = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      await getGmailLoginToken(tokenResponse);
+    },
+  });
 
   return (
     <>
@@ -90,6 +97,9 @@ const Home = () => {
           <div className="d-grid gap-2">
             <button className="btn btn-primary" type="submit">
               Envoyer
+            </button>
+            <button className="btn btn-outline-danger" type="button" onClick={() => doLoginWithGmail()}>
+              Se connecter avec Gmail
             </button>
           </div>
         </form>

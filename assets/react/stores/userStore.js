@@ -19,7 +19,7 @@ export const getAuth = async (data) => {
     response = await response.json();
     if (response.token) {
       localStorage.setItem('token', response.token);
-      getUser();
+      await getUser();
     }
   } catch {}
 };
@@ -34,6 +34,21 @@ export const getUser = async () => {
     if (response.ok) {
       response = await response.json();
       useUserStore.setState(() => ({ user: response }));
+    }
+  } catch {}
+};
+
+export const getGmailLoginToken = async (data) => {
+  try {
+    let response = await fetch(`/api/security/get-gmail-login-token`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      response = await response.json();
+      localStorage.setItem('token', response.token);
+      await getUser();
     }
   } catch {}
 };
