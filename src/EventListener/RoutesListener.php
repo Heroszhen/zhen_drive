@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventListener;
 
+use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\User\UserInterface;
-use App\Entity\User;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[AsEventListener(event: KernelEvents::REQUEST, priority: -10)]
 final class RoutesListener
@@ -19,7 +21,8 @@ final class RoutesListener
 
     public function __construct(
         private Security $security,
-    ) {}
+    ) {
+    }
 
     public function __invoke(RequestEvent $event): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\ContactRepository;
@@ -16,7 +18,7 @@ class Contact
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[Assert\NotBlank(message: 'Le champ est obligatoire')]
     #[ORM\Column(length: 255, nullable: true)]
@@ -34,7 +36,7 @@ class Contact
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $civility = null;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

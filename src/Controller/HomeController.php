@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Contact;
@@ -16,12 +18,11 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
-    )
-    {
+        private EntityManagerInterface $entityManager,
+    ) {
     }
 
-    #[Route('/accueil', name: 'app_home', methods:['GET'])]
+    #[Route('/accueil', name: 'app_home', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('home/index.html.twig', [
@@ -29,7 +30,7 @@ final class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/contact', name: 'app_contact', methods:['GET', 'POST'])]
+    #[Route('/contact', name: 'app_contact', methods: ['GET', 'POST'])]
     public function contact(Request $request): Response
     {
         $contact = new Contact();
@@ -43,8 +44,7 @@ final class HomeController extends AbstractController
                 $event = new MessageEvent();
                 $event
                     ->setEvent(MessageEventEnum::CONTACT)
-                    ->setObjectId((string)$contact->getId())
-                ;
+                    ->setObjectId((string) $contact->getId());
 
                 $this->entityManager->persist($event);
                 $this->entityManager->flush();

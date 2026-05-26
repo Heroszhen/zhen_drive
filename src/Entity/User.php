@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use App\Controller\Action\GetUserByToken;
 use App\Repository\UserRepository;
 use App\Traits\TimestampableTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use App\Controller\Action\GetUserByToken;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -32,7 +34,7 @@ use App\Controller\Action\GetUserByToken;
             controller: GetUserByToken::class,
             read: false
         ),
-        new Get(security: "is_granted('ROLE_ADMIN') or object.owner == user")
+        new Get(security: "is_granted('ROLE_ADMIN') or object.owner == user"),
     ]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -43,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[Groups(['user:read'])]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 180)]
     #[Assert\Email()]
@@ -71,7 +73,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read'])]
     private ?string $photo = null;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

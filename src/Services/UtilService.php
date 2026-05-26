@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use Psr\Log\LoggerInterface;
@@ -8,9 +10,9 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class UtilService
 {
     public function __construct(
-        private readonly LoggerInterface $logger
-    )
-    {}
+        private readonly LoggerInterface $logger,
+    ) {
+    }
 
     public function logHttpErrorMessage(\Exception $e, string $title = 's3'): void
     {

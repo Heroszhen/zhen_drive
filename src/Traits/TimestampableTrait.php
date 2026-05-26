@@ -1,20 +1,23 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Traits;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 trait TimestampableTrait
 {
     #[Gedmo\Timestampable(on: 'create')]
-    #[ORM\Column(name: "created_at", type: Types::DATETIME_MUTABLE, nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(name: 'created_at', type: Types::DATETIME_MUTABLE, nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Groups(['media_object:read', 'video_type:read', 'user:read', 'movie:read'])]
     private ?\DateTimeInterface $createdAt = null;
 
     #[Gedmo\Timestampable(on: 'update')]
-    #[ORM\Column(name: "updated_at", type: Types::DATETIME_MUTABLE, nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(name: 'updated_at', type: Types::DATETIME_MUTABLE, nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Groups(['media_object:read', 'video_type:read', 'user:read', 'movie:read'])]
     protected ?\DateTimeInterface $updatedAt = null;
 

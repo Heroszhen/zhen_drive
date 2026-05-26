@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model;
 
 class S3File
@@ -9,7 +11,7 @@ class S3File
         public ?string $fullName = null,
         public ?string $extension = null,
         public ?int $size = null,
-        public \DateTime $updated = new \DateTime()
-    )
-    { }
+        public \DateTime $updated = new \DateTime(),
+    ) {
+    }
 }

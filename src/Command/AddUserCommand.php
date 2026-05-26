@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Entity\User;
@@ -13,8 +15,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
@@ -31,9 +33,8 @@ class AddUserCommand extends Command
         private UserPasswordHasherInterface $passwordHasher,
         private EntityManagerInterface $entityManager,
         private ValidatorInterface $validator,
-        private HttpClientInterface $httpClient
-    )
-    {
+        private HttpClientInterface $httpClient,
+    ) {
         parent::__construct();
     }
 
@@ -44,8 +45,7 @@ class AddUserCommand extends Command
             ->addArgument('password', InputArgument::REQUIRED, 'Password')
             ->addArgument('name', InputArgument::REQUIRED, 'Name')
             ->addOption('canAddFolder', null, InputOption::VALUE_OPTIONAL, 'Can add root folder for this user?')
-            ->addOption('isAdmin', null, InputOption::VALUE_OPTIONAL, 'Is admin?')
-        ;
+            ->addOption('isAdmin', null, InputOption::VALUE_OPTIONAL, 'Is admin?');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -67,14 +67,13 @@ class AddUserCommand extends Command
             ->setEmail($email)
             ->setPassword($hashedPassword)
             ->setName($name)
-            ->setRoles('true' === $isAdmin ? ['ROLE_USER', 'ROLE_ADMIN'] : ['ROLE_USER'])
-        ;
+            ->setRoles('true' === $isAdmin ? ['ROLE_USER', 'ROLE_ADMIN'] : ['ROLE_USER']);
 
         $errors = $this->validator->validate($user);
         if ($errors->count() > 0) {
             /** @var ConstraintViolation $error */
             foreach ($errors as $error) {
-                $io->error($error->getMessage());
+                $io->error((string) $error->getMessage());
             }
 
             return Command::FAILURE;
@@ -93,8 +92,8 @@ class AddUserCommand extends Command
                     ],
                     'json' => [
                         'path' => $_ENV['APP_ENV']."/{$name}",
-                        'bucket' => $_ENV['S3_BUCKET']
-                    ]
+                        'bucket' => $_ENV['S3_BUCKET'],
+                    ],
                 ]
             );
 
@@ -106,7 +105,7 @@ class AddUserCommand extends Command
         }
 
         $io->info('User is added');
-        
+
         $io->success('AddUserCommand done.');
 
         return Command::SUCCESS;

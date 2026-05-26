@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Enum\MessageEventEnum;
@@ -17,7 +19,7 @@ class MessageEvent
     #[ORM\Column(type: 'string', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private ?string $id = null;
+    private string $id;
 
     #[ORM\Column(type: 'string', enumType: MessageEventEnum::class, nullable: true)]
     private ?MessageEventEnum $event = null;
