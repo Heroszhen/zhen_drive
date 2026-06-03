@@ -8,7 +8,7 @@ const TXTEditor = (props) => {
   const { toast } = useContext(MessageModalContext);
 
   useEffect(() => {
-    if (driveIndex) {
+    if (driveIndex !== null) {
       getFileContent();
     }
   }, []);
