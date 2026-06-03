@@ -37,9 +37,10 @@ const TXTEditor = (props) => {
       <section id="editor-txt" className="position-fixed z-5 top-0 start-0 w-100 h-100 bg-white overflow-hidden p-1">
         <div className="d-flex justify-content-between">
           <i className="bi bi-floppy-fill cursor-pointer" onClick={() => save()}></i>
+          {fileContent !== null && fileContent.replace(/\s/g, '').length}
           <i className="bi bi-x-lg mr-3 cursor-pointer" onClick={() => props.setOpenEditor(false)}></i>
         </div>
-        {fileContent && (
+        {fileContent !== null && (
           <textarea
             className="w-100 h-[calc(100%-30px)]"
             value={fileContent}
