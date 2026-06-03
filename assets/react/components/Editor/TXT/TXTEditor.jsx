@@ -34,7 +34,9 @@ const TXTEditor = (props) => {
 
   return (
     <>
-      <section id="editor-txt" className="position-fixed z-5 top-0 start-0 w-100 h-100 bg-white overflow-hidden p-1">
+      <section
+        id="editor-txt"
+        className="position-fixed z-5 top-0 start-0 w-100 h-100 bg-white overflow-hidden p-1 z-500">
         <div className="d-flex justify-content-between">
           <i className="bi bi-floppy-fill cursor-pointer" onClick={() => save()}></i>
           {fileContent !== null && fileContent.replace(/\s/g, '').length}
