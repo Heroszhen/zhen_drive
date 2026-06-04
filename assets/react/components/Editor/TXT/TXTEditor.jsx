@@ -32,6 +32,11 @@ const TXTEditor = (props) => {
     }
   };
 
+  const countWords = () => {
+    if (fileContent === null) return 0;
+    return fileContent.replace(/[\s。，"()：？.]/g, '').length;
+  };
+
   return (
     <>
       <section
@@ -39,7 +44,7 @@ const TXTEditor = (props) => {
         className="position-fixed z-5 top-0 start-0 w-100 h-100 bg-white overflow-hidden p-1 z-500">
         <div className="d-flex justify-content-between">
           <i className="bi bi-floppy-fill cursor-pointer" onClick={() => save()}></i>
-          {fileContent !== null && fileContent.replace(/\s/g, '').length}
+          {countWords()} caractères
           <i className="bi bi-x-lg mr-3 cursor-pointer" onClick={() => props.setOpenEditor(false)}></i>
         </div>
         {fileContent !== null && (
